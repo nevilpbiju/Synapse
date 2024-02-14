@@ -55,14 +55,6 @@ const SignupForm = () => {
     }
   }
   
-
-  // Original
-  // const onSubmit = (data) => {
-  //   // Create a user
-  //   // Make a loading
-  //   console.log('Form data:', data);
-  // };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto">
       <div className='mb-4'>
@@ -118,7 +110,7 @@ const SignupForm = () => {
           {errors.confirmPassword && <p className="text-red-500 text-xs">{errors.confirmPassword.message}</p>}
       </div>
 
-      <button type="submit" className="bg-gradient-to-r to-emerald-600 from-sky-400 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600">
+      <button type="submit" className="syn-button">
         {isLoading || isUserLoading ?(
           <div className="flex-center gap-2">
             <Loader />

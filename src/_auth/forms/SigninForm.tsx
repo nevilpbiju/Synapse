@@ -72,7 +72,7 @@ const SigninForm = () => {
         {errors.password && <p className="text-red-500 text-xs">Password is required</p>}
       </div>
 
-      <button type="submit" className="bg-gradient-to-r to-emerald-600 from-sky-400 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600">
+      <button type="submit" className="syn-button">
       {isUserLoading ?(
           <div className="flex-center gap-2">
             <Loader />

@@ -4,7 +4,7 @@ import SigninForm from './_auth/forms/SigninForm';
 import SignupForm from './_auth/forms/SignupForm';
 import AuthLayout from './_auth/AuthLayout';
 import RootLayout from './_root/RootLayout';
-import {Home} from './_root/pages';
+import {Admin, Chat, Conference, CreateQuery, EditQuery, Friends, Home, Profile, QueryDetails, Search, UpdateProfile} from './_root/pages';
 
 // Continue
 
@@ -21,7 +21,17 @@ const App = () => {
             {/* Private routes */}
             <Route element={<RootLayout />}>
                 <Route index element={<Home/>}/>
-            </Route>
+                <Route path='/search' element={<Search/>}/>
+                <Route path='/create-query' element={<CreateQuery/>}/>
+                <Route path='/update-query/:id' element={<EditQuery/>}/>
+                <Route path='/query/:id' element={<QueryDetails/>}/>
+                <Route path='/friends' element={<Friends/>}/>.
+                <Route path='/profile/:id/*' element={<Profile/>}/>
+                <Route path='/update-profile/:id' element={<UpdateProfile/>}/>
+                <Route path='/chat' element={<Chat/>}/>
+                <Route path='/conference' element={<Conference/>}/>
+                <Route path='/admin' element={<Admin/>}/>
+            </Route> 
         </Routes>
     </main>
   )
