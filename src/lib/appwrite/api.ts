@@ -1,6 +1,6 @@
 import { ID, Query } from "appwrite";
-import { INewUser } from "../../types";
-import { account, appwriteConfig, avatars, databases } from "./config";
+import { INewPost, INewQuery, INewUser } from "../../types";
+import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
 export async function createUserAccount(user: INewUser) {
     try {
@@ -79,9 +79,50 @@ export async function getCurrentUser() {
 export async function signOutAccount() {
   try {
     const session = await account.deleteSession("current");
-
     return session;
   } catch (error) {
     console.log(error);
   }
+}
+
+
+export async function createPost(post: INewQuery) {
+  try {
+    // Convert tags into array
+    const domain = post.domain?.replace(/ /g, "").split(",") || [];
+    console.log('domain');
+
+    // Create post
+    const newPost = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.questionCollectionId,
+      ID.unique(),
+      {
+        UserID: post.UserID,
+        content: post.content,
+        domain: domain,
+        timestamp: post.timestamp,
+      }
+    );
+
+    if (!newPost) {
+      throw Error;
+    }
+
+    return newPost;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getRecentPosts() {
+  const posts = await databases.listDocuments(
+    appwriteConfig.databaseId, 
+    appwriteConfig.questionCollectionId,
+    [Query.orderDesc('$createdAt'),Query.limit(20)]
+  )
+
+  if(!posts) throw Error;
+
+  return posts;
 }

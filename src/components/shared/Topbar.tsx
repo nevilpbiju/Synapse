@@ -5,9 +5,20 @@ import { useSignOutAccount } from '../../lib/react-query/queriesAndMutations'
 import { useUserContext } from '../../context/AuthContext'
  
  const Topbar = () => {
-  const {mutate: SignOut, isSuccess} = useSignOutAccount();
+  const {mutate: signOut, isSuccess} = useSignOutAccount();
   const navigate = useNavigate(); 
-  const {user} = useUserContext(); 
+  const { user, setIsAuthenticated } = useUserContext();
+
+
+  const handleSignOut = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    signOut();
+    sessionStorage.clear();
+    setIsAuthenticated(false);
+    navigate("/sign-in");
+  };
 
   useEffect(()=> {
     if(isSuccess) navigate(0);
@@ -28,7 +39,7 @@ import { useUserContext } from '../../context/AuthContext'
         <Button
           variant="ghost"
           className="shad-button_ghost"
-          onClick={() => signOut()}>
+          onClick={(e) => handleSignOut(e)}>
           <img src="/assets/icons/logout.svg" alt="logout" />
         </Button>
         <Link to={`/profile/${user.id}`} className="flex-center gap-3">

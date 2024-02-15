@@ -12,3 +12,10 @@ export const SigninValidation = z.object({
   email: z.string().email(),
   password: z.string().min(8, { message: "Password must be at least 8 characters." }),
 });
+
+export const QueryValidation = z.object({
+  UserID: z.string(),
+  content: z.string().min(20).max(2000),
+  domain: z.string(),
+  timestamp: z.string(),
+});

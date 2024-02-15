@@ -138,7 +138,7 @@
   
     /* Home */
     .home-container {
-      @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar;
+      @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar bg-stone-50;
     }
   
     .home-posts {
@@ -194,7 +194,7 @@
     /* Made changes */
     /* Bottom bar */
     .bottom-bar {
-      @apply z-50 flex-between w-full sticky bottom-0 rounded-t-[20px] px-5 py-4 md:hidden;
+      @apply z-50 flex-between w-full bg-white sticky bottom-0 rounded-t-[20px] px-5 py-4 md:hidden;
     }
   
     /* File uploader */
@@ -242,7 +242,7 @@
     /* Made changes */
     /* Post Card */
     .post-card {
-      @apply rounded-3xl border p-5 lg:p-7 w-full max-w-screen-sm;
+      @apply rounded-3xl border p-5 lg:p-7 w-80 md:w-[26rem] bg-white;
     }
   
     .post-card_img {
@@ -251,7 +251,7 @@
   
     /* Topbar */
     .topbar {
-      @apply sticky top-0 z-50 md:hidden w-full;
+      @apply sticky top-0 z-50 md:hidden w-full bg-white;
     }
   
     /* User card */
@@ -273,11 +273,11 @@
     }
   
     .shad-input {
-      @apply h-12  border placeholder:text-light-4 outline-none !important;
+      @apply h-12 border placeholder:text-light-4 outline-none rounded-lg !important;
     }
   
     .shad-textarea {
-      @apply h-36 rounded-xl border outline-none !important;
+      @apply h-52 rounded-xl border outline-none !important;
     }
   
     /* Button */
@@ -301,3 +301,4 @@
     }
   }
   
+

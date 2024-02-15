@@ -12,7 +12,7 @@ import { useUserContext } from '../../context/AuthContext';
 const SignupForm = () => {
   const navigate= useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { checkAuthUser, isLoading: isUserLoading} = useUserContext();
+  const { checkAuthUser, isLoading: isUserLoading, user} = useUserContext();
 
   
   const form = useForm<z.infer<typeof SignupValidation>>({
@@ -40,6 +40,7 @@ const SignupForm = () => {
       password: values.password,
     });
     if(!session){
+      alert('Registration failed, Please try again later');
       console.log('Signin failed'); 
       navigate("/sign-in");
       return;
@@ -48,8 +49,11 @@ const SignupForm = () => {
     const isLoggedIn = await checkAuthUser();
     if(isLoggedIn){
       form.reset();
+      sessionStorage.setItem('user', user.id);
+      console.log(sessionStorage.getItem('user'));
       navigate('/');
     }else{
+      alert('Registration failed, Please try again later');
       console.log('Sigup failed');
       return;
     }
