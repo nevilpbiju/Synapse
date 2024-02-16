@@ -4,7 +4,7 @@ import {
     useQueryClient,
     useInfiniteQuery,
 } from "@tanstack/react-query";
-import { createPost, createUserAccount, deletePost, getPostById, getRecentPosts, signInAccount, signOutAccount, updatePost } from "../appwrite/api";
+import { createPost, createUserAccount, deletePost, getPostById, getRecentPosts, getUserById, signInAccount, signOutAccount, updatePost } from "../appwrite/api";
 import { INewPost, INewQuery, INewUser, IUpdateQuery } from "../../types";
 import { QUERY_KEYS } from "./queryKeys";
 
@@ -81,5 +81,14 @@ export const useDeletePost = () => {
         queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
       });
     },
+  });
+};
+
+
+export const useGetUserById = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
+    queryFn: () => getUserById(userId),
+    enabled: !!userId,
   });
 };

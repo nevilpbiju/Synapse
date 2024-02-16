@@ -14,7 +14,7 @@ const QueryDetails = () => {
 
   const handleDeleteQuery = () => {
     deletePost({ postId: id });
-    navigate(-1);
+    navigate('/');
   };
 
   return (
@@ -23,7 +23,7 @@ const QueryDetails = () => {
         <div className='border rounded-lg px-5 py-5 md:px-12 bg-white'>
         <div className="flex-between">
             <div className="flex items-center gap-3">
-                <Link to={`/pofile/${query.UserID}`}>
+                <Link to={`/profile/${query.UserID}`}>
                     <img src='/assets/icons/profile-placeholder.svg' className='rounded-full w-12 lg:h-12'/>
                 </Link>
                 <div className="flex flex-col">

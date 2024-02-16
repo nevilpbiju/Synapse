@@ -9,7 +9,7 @@ import { dateConverter } from '../../lib/utils'
      <div className='post-card'>
         <div className="flex-between">
             <div className="flex items-center gap-3">
-                <Link to={`/pofile/${query.UserID}`}>
+                <Link to={`/profile/${query.UserID}`}>
                     <img src='/assets/icons/profile-placeholder.svg' className='rounded-full w-12 lg:h-12'/>
                 </Link>
                 <div className="flex flex-col">
