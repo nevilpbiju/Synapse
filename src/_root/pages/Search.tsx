@@ -12,7 +12,7 @@ const Search = () => {
       <div className="home-container">
       <form className='flex items-center justify-between gap-3 border rounded-lg p-3 w-80 md:w-[26rem] bg-white'>
       <input type="text" placeholder="Search..." className='outline-none'/>
-      <button type="submit" className=''><img src='/public/assets/icons/search.svg'/></button>
+      <button type="submit" className=''><img src='/assets/icons/search.svg'/></button>
       </form>
         <div className="home-posts">
           <div className="overflow-auto">

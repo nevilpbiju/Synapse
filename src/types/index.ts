@@ -61,3 +61,9 @@ export type INavLink = {
     timestamp: string
   }
 
+  export type IUpdateQuery = {
+    queryId: string;
+    content: string
+    domain: string
+    timestamp: string
+  };

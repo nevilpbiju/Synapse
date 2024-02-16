@@ -151,12 +151,12 @@
   
     /* Post Details */
     .post_details-container {
-      @apply flex flex-col flex-1 gap-10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar items-center;
+      @apply flex-1 gap-10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar;
     }
   
     /* Made changes */
     .post_details-card {
-      @apply w-full max-w-5xl rounded-[30px] flex-col flex xl:flex-row border xl:rounded-l-[24px];
+      @apply w-full max-w-5xl rounded-[30px] flex-col flex border xl:rounded-l-[24px];
     }
   
     .post_details-img {

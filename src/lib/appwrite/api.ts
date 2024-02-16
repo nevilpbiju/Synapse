@@ -1,5 +1,5 @@
 import { ID, Query } from "appwrite";
-import { INewPost, INewQuery, INewUser } from "../../types";
+import { INewPost, INewQuery, INewUser, IUpdateQuery } from "../../types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
 export async function createUserAccount(user: INewUser) {
@@ -125,4 +125,60 @@ export async function getRecentPosts() {
   if(!posts) throw Error;
 
   return posts;
+}
+
+
+export async function getPostById(queryId:string) {
+  try{
+    const query = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.questionCollectionId,
+      queryId
+    )
+    console.log(query);
+    return query;
+  } catch(error){
+    console.log(error);
+  }
+}
+
+export async function updatePost(post: IUpdateQuery) {
+  try {
+    // Convert tags into array
+    const domain = post.domain?.replace(/ /g, "").split(",") || [];
+    console.log(post.queryId);
+    // Create post
+    const updatedPost = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.questionCollectionId,
+      post.queryId,
+      {
+        content: post.content,
+        domain: domain,
+        timestamp: post.timestamp,
+      }
+    );
+
+    if (!updatedPost) {
+      throw Error;
+    }
+
+    return updatedPost || null;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deletePost(postId?:string) {
+   if (!postId) throw Error;
+   try{
+    await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.questionCollectionId,
+      postId
+    )
+    return { status: 'ok'}
+   }  catch(error){
+    console.log(error);
+   }
 }

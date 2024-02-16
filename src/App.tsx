@@ -23,7 +23,7 @@ const App = () => {
                 <Route index element={<Home/>}/>
                 <Route path='/search' element={<Search/>}/>
                 <Route path='/create-query' element={<CreateQuery/>}/>
-                <Route path='/update-query/:id' element={<EditQuery/>}/>
+                <Route path='/edit-query/:id' element={<EditQuery/>}/>
                 <Route path='/query/:id' element={<QueryDetails/>}/>
                 <Route path='/friends' element={<Friends/>}/>.
                 <Route path='/profile/:id/*' element={<Profile/>}/>
