@@ -19,3 +19,9 @@ export const QueryValidation = z.object({
   domain: z.string(),
   timestamp: z.string(),
 });
+
+export const ProfileUpdateValidation = z.object({
+  name: z.string(),
+  bio: z.string(),
+  institute: z.string(),
+})

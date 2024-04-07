@@ -9,3 +9,4 @@ export { default as Profile } from './Profile';
 export { default as QueryDetails } from './QueryDetails';
 export { default as Search } from './Search';
 export { default as UpdateProfile } from './UpdateProfile';
+export { default as PageNotFound } from './PageNotFound';

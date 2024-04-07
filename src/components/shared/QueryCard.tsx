@@ -9,12 +9,12 @@ import { dateConverter } from '../../lib/utils'
      <div className='post-card'>
         <div className="flex-between">
             <div className="flex items-center gap-3">
-                <Link to={`/profile/${query.UserID}`}>
-                    <img src='/assets/icons/profile-placeholder.svg' className='rounded-full w-12 lg:h-12'/>
+                <Link to={`/profile/${query.creator.$id}`}>
+                    <img src={query.creator.imageUrl} className='rounded-full w-12 lg:h-12'/>
                 </Link>
                 <div className="flex flex-col">
                     <p className='base-medium lg:body-bold '>
-                        Name <span className='text-xs text-slate-500'>({query.UserID})</span>
+                        {query.creator.name} <span className='text-xs text-slate-500'>({query.creator.username})</span>
                     </p>
                     <div className='gap-2'>
                         <p className='text-xs text-slate-500'>
@@ -23,13 +23,13 @@ import { dateConverter } from '../../lib/utils'
                     </div>
                 </div>
             </div>
-            <Link to={`/edit-query/${query.$id}`} className={`${user!= query.UserID && "hidden"}`}>
+            <Link to={`/edit-query/${query.$id}`} className={`${user!= query.creator.$id && "hidden"}`}>
                 <img src='/assets/icons/edit.svg' alt='edit' width={24} height={24}/>
             </Link>
         </div>
         <Link to={`/query/${query.$id}`}>
             <div className="small-medium lg:base-medium py-5">
-                <p>{query.content}</p>
+                <p>{query.caption}</p>
             </div>
             {/* If an image URL available */}
             {/* <img src='/public/assets/images/Sample-img.jpg' className='rounded-lg'/> */}

@@ -17,5 +17,8 @@ export enum QUERY_KEYS {
   
     //  SEARCH KEYS
     SEARCH_POSTS = "getSearchPosts",
+
+    // CONNECTIONS
+    GET_CONNECTIONS = "getConnections",
   }
   

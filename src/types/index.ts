@@ -8,9 +8,7 @@ export type INavLink = {
     userId: string;
     name: string;
     bio: string;
-    imageId: string;
-    imageUrl: URL | string;
-    file: File[];
+    institute: string;
   };
   
   export type INewPost = {

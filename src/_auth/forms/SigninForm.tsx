@@ -42,8 +42,8 @@ const SigninForm = () => {
     const isLoggedIn = await checkAuthUser();
     if(isLoggedIn){
       form.reset();
-      sessionStorage.setItem('user', user.id);
-      console.log(sessionStorage.getItem('user'));
+      // sessionStorage.setItem('user', user.id);
+      // console.log(sessionStorage.getItem('user'));
       navigate('/');
     }else{
       alert('Login failed, Please try again later');

@@ -4,6 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 /* Reimport styles if needed */
 
 @layer base {
@@ -113,6 +114,50 @@
     .common-container {
       @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar;
     }
+
+    .center-boxer{
+      margin: auto;
+      width: 50%;
+    }
+
+    .input-msg{
+      @apply flex flex-col items-start gap-2;
+    }
+
+    .output-msg{
+      @apply flex flex-col items-end gap-2;
+    }
+
+    .input-msg div{
+      @apply bg-gray-200 text-gray-900 rounded-lg p-2 max-w-xs
+    }
+
+    .output-msg div{
+      @apply bg-sky-400 text-black rounded-lg p-2 max-w-xs
+    }
+
+    .input-msg span{
+      @apply text-sm text-gray-500;
+    }
+
+    .output-msg span{
+      @apply text-sm text-gray-500;
+    }
+
+    .bottom-container{
+      @apply w-full p-2;
+      position: sticky;
+      bottom: 0;
+    }
+
+    .chat-container{
+      @apply h-[34rem] px-4;
+    }
+
+
+    .chat-list tr td{
+      @apply p-5 bg-slate-50 mx-5;
+    }
   
     /* All Users */
     .user-container {
@@ -139,6 +184,10 @@
     /* Home */
     .home-container {
       @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar bg-stone-50;
+    }
+
+    .home-container-2 {
+      @apply flex flex-col flex-1 items-center overflow-scroll custom-scrollbar bg-stone-50;
     }
   
     .home-posts {
@@ -257,6 +306,11 @@
     /* User card */
     .user-card {
       @apply flex-center flex-col gap-4 border rounded-[20px] px-5 py-8;
+    }
+
+    .section-center{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 

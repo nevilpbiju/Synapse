@@ -1,5 +1,5 @@
 import { ID, Query } from "appwrite";
-import { INewPost, INewQuery, INewUser, IUpdateQuery } from "../../types";
+import { INewPost, INewQuery, INewUser, IUpdateQuery, IUpdateUser } from "../../types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
 export async function createUserAccount(user: INewUser) {
@@ -79,6 +79,7 @@ export async function getCurrentUser() {
 export async function signOutAccount() {
   try {
     const session = await account.deleteSession("current");
+    sessionStorage.clear();
     return session;
   } catch (error) {
     console.log(error);
@@ -90,7 +91,7 @@ export async function createPost(post: INewQuery) {
   try {
     // Convert tags into array
     const domain = post.domain?.replace(/ /g, "").split(",") || [];
-    console.log('domain');
+    console.log(post);
 
     // Create post
     const newPost = await databases.createDocument(
@@ -98,9 +99,9 @@ export async function createPost(post: INewQuery) {
       appwriteConfig.questionCollectionId,
       ID.unique(),
       {
-        UserID: post.UserID,
-        content: post.content,
-        domain: domain,
+        creator: post.UserID,
+        caption: post.content,
+        tags: domain,
         timestamp: post.timestamp,
       }
     );
@@ -108,7 +109,7 @@ export async function createPost(post: INewQuery) {
     if (!newPost) {
       throw Error;
     }
-
+    console.log(newPost);
     return newPost;
   } catch (error) {
     console.log(error);
@@ -127,6 +128,17 @@ export async function getRecentPosts() {
   return posts;
 }
 
+// export async function getConnections() {
+//   const posts = await databases.listDocuments(
+//     appwriteConfig.databaseId, 
+//     appwriteConfig.questionCollectionId,
+//     [Query.select([Accepted], )]
+//   )
+
+//   if(!posts) throw Error;
+
+//   return posts;
+// }
 
 export async function getPostById(queryId:string) {
   try{
@@ -146,16 +158,14 @@ export async function updatePost(post: IUpdateQuery) {
   try {
     // Convert tags into array
     const domain = post.domain?.replace(/ /g, "").split(",") || [];
-    console.log(post.queryId);
     // Create post
     const updatedPost = await databases.updateDocument(
       appwriteConfig.databaseId,
       appwriteConfig.questionCollectionId,
       post.queryId,
       {
-        content: post.content,
-        domain: domain,
-        timestamp: post.timestamp,
+        caption: post.content,
+        tags: domain,
       }
     );
 
@@ -192,8 +202,77 @@ export async function getUserById(userId: string) {
     );
 
     if (!user) throw Error;
-
     return user;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function fetchReplies(post: string){
+  try{
+    console.log(post);
+    const replies = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.answerCollectionId, [Query.equal('postBy', post)]);
+    return replies.documents;
+  }
+  catch (error){
+    console.log(error);
+  }
+}
+
+export async function useAddFriend(receiver:string, sender: string) {
+  try{
+    const newNetwork = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.networkCollectionId,
+      ID.unique(),
+      {
+        Sender: sender,
+        Reciever: receiver
+      }
+    );
+    if (!newNetwork) {
+      throw Error;
+    }
+    console.log(newNetwork);
+    return newNetwork;
+  }
+  catch(error){
+    console.error(error);
+  }
+
+}
+
+export async function useCheckConnection(id:string, guest:string) {
+  try{
+    console.log(id+guest);
+  }catch(error){
+    console.error(error);
+  }
+}
+
+
+export async function updateProfile(name: string, bio: string, institute: string, userId: string) {
+  try {
+    console.log(userId);
+    console.log(name);
+    console.log(bio);
+    console.log(institute);
+    const updatedProfile = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      userId,
+      {
+        name: name,
+        bio: bio,
+        institute: institute,
+      }
+    );
+
+    if (!updatedProfile) {
+      throw Error;
+    }
+
+    return updatedProfile || null;
   } catch (error) {
     console.log(error);
   }

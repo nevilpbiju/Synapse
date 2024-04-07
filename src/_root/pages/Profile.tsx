@@ -3,6 +3,7 @@ import { Link, Outlet, Route, Routes, useLocation, useParams } from 'react-route
 import MainLoader from '../../components/shared/MainLoader';
 import { useUserContext } from '../../context/AuthContext';
 import { useGetUserById } from '../../lib/react-query/queriesAndMutations';
+import { useAddFriend, useCheckConnection } from '../../lib/appwrite/api';
 
 interface StabBlockProps {
   value: string | number;
@@ -31,6 +32,16 @@ const Profile = () => {
       </div>
     );
 
+  async function addFriend(){
+    const result = await useAddFriend(id, user.id);
+    console.log("result");
+  }
+  // async function checkConnection() {
+  //   const connection = await useCheckConnection(id, user.id);
+  //   console.log(connection);
+  // }
+  
+  // checkConnection();
   return (
     <div className="profile-container bg-stone-50">
       <div className="profile-inner_container bg-white p-8 rounded-xl">
@@ -50,8 +61,10 @@ const Profile = () => {
               <p className="small-regular md:body-medium text-slate-600 text-center xl:text-left">
                 @{currentUser.username}
               </p>
-              <p className="small-regular md:body-medium text-slate-600 text-center xl:text-left">Institution</p>
-              <p className="small-regular md:body-medium text-slate-600 text-center xl:text-left">Tags</p>
+              <div className='py-4'>
+                <p className="small-regular md:small-semibold text-slate-600 text-center xl:text-left">Institution: {currentUser.institute ? currentUser.institute : "Unknown"}</p>
+                <p className="small-regular md:small-semibold text-slate-600 text-center xl:text-left">Interests: {currentUser.bio ? currentUser.bio : "Unknown"}</p>
+              </div>
             </div>
 
             <div className="flex gap-8 mt-10 items-center justify-center xl:justify-start flex-wrap z-20">
@@ -80,7 +93,7 @@ const Profile = () => {
               </Link>
             </div>
             <div className={`${user.id === id && "hidden"}`}>
-              <button type="button" className="syn-button-2 px-8">
+              <button type="button" className="syn-button-2 px-8" onClick={addFriend}>
                 Add Friend
               </button>
             </div>
@@ -92,3 +105,5 @@ const Profile = () => {
 }
 
 export default Profile
+
+

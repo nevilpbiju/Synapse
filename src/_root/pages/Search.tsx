@@ -15,7 +15,7 @@ const Search = () => {
       <button type="submit" className=''><img src='/assets/icons/search.svg'/></button>
       </form>
         <div className="home-posts">
-          <div className="overflow-auto">
+          <div className="overflow-hidden">
           {isLoading && !querys ? (
             <MainLoader/>
           ):(

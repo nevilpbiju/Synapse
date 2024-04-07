@@ -4,9 +4,10 @@ import {
     useQueryClient,
     useInfiniteQuery,
 } from "@tanstack/react-query";
-import { createPost, createUserAccount, deletePost, getPostById, getRecentPosts, getUserById, signInAccount, signOutAccount, updatePost } from "../appwrite/api";
-import { INewPost, INewQuery, INewUser, IUpdateQuery } from "../../types";
+import { createPost, createUserAccount, deletePost, getPostById, getRecentPosts, getUserById, signInAccount, signOutAccount, updatePost, updateProfile } from "../appwrite/api";
+import { INewPost, INewQuery, INewUser, IUpdateQuery, IUpdateUser } from "../../types";
 import { QUERY_KEYS } from "./queryKeys";
+import { profile } from "console";
 
 
 export const useCreateUserAccount = () =>{
@@ -50,6 +51,13 @@ export const useGetRecentPosts = () => {
   });
 };
 
+// export const useGetConnections = () =>{
+//   return useQuery({
+//     queryKey: [QUERY_KEYS.GET_FILE_PREVIEW],
+//     queryFn: getConnections,
+//   })
+// }
+
 
 export const useGetPostById = (queryId: string)=>{
   return useQuery({
@@ -92,3 +100,16 @@ export const useGetUserById = (userId: string) => {
     enabled: !!userId,
   });
 };
+
+export const useUpdateProfile= () =>{
+  const queryClient = useQueryClient();
+  // console.log(profile);
+  return useMutation({
+    mutationFn: (profile: IUpdateUser) => updateProfile(profile),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id],
+      });
+    },
+  });
+}

@@ -5,6 +5,7 @@ import SignupForm from './_auth/forms/SignupForm';
 import AuthLayout from './_auth/AuthLayout';
 import RootLayout from './_root/RootLayout';
 import {Admin, Chat, Conference, CreateQuery, EditQuery, Friends, Home, Profile, QueryDetails, Search, UpdateProfile} from './_root/pages';
+import PageNotFound from './_root/pages/PageNotFound';
 
 // Continue
 
@@ -31,7 +32,9 @@ const App = () => {
                 <Route path='/chat' element={<Chat/>}/>
                 <Route path='/conference' element={<Conference/>}/>
                 <Route path='/admin' element={<Admin/>}/>
-            </Route> 
+                <Route path='*' element={<PageNotFound/>}/>
+            </Route>
+
         </Routes>
     </main>
   )
