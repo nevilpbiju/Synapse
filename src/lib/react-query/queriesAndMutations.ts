@@ -4,7 +4,7 @@ import {
     useQueryClient,
     useInfiniteQuery,
 } from "@tanstack/react-query";
-import { createPost, createUserAccount, deletePost, getPostById, getRecentPosts, getUserById, signInAccount, signOutAccount, updatePost, updateProfile } from "../appwrite/api";
+import { createPost, createUserAccount, deletePost, getFriends, getFriends2, getFriendsRequests, getPostById, getRecentPosts, getUserById, signInAccount, signOutAccount, updatePost, updateProfile } from "../appwrite/api";
 import { INewPost, INewQuery, INewUser, IUpdateQuery, IUpdateUser } from "../../types";
 import { QUERY_KEYS } from "./queryKeys";
 import { profile } from "console";
@@ -51,12 +51,28 @@ export const useGetRecentPosts = () => {
   });
 };
 
-// export const useGetConnections = () =>{
-//   return useQuery({
-//     queryKey: [QUERY_KEYS.GET_FILE_PREVIEW],
-//     queryFn: getConnections,
-//   })
-// }
+export const useGetFriendRequests = (userId) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_FRIENDS_REQUESTS, userId],
+    queryFn: () => getFriendsRequests(userId),
+  });
+};
+
+
+export const useGetFriends = (userId) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_FRIENDS, userId],
+    queryFn: () => getFriends(userId),
+  });
+};
+
+export const useGetFriends2 = (userId) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_FRIENDS2, userId],
+    queryFn: () => getFriends2(userId),
+  });
+};
+
 
 
 export const useGetPostById = (queryId: string)=>{

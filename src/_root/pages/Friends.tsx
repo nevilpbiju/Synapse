@@ -2,14 +2,21 @@ import React from 'react'
 import MainLoader from '../../components/shared/MainLoader'
 import { useUserContext } from '../../context/AuthContext';
 import FriendCard from '../../components/shared/FriendCard';
+// import { useGetFriendRequests } from '../../lib/appwrite/api';
+import { Models } from 'appwrite';
+import { useGetFriendRequests, useGetFriends, useGetFriends2 } from '../../lib/react-query/queriesAndMutations';
+import RequestedCard from '../../components/shared/RequestedCard';
 
 const Friends = () => {
 
+  // let requests;
+
   const { checkAuthUser, isLoading: isUserLoading, user} = useUserContext();
+  const { data: requests, isPending: isLoading } = useGetFriendRequests(user.id);
+  const { data: friends, isPending: isLoading2 } = useGetFriends(user.id);
+  const { data: friends2 } = useGetFriends2(user.id);
 
 
-  sessionStorage.setItem('user', user.id);
-      console.log(sessionStorage.getItem('user'));
   return (
     <div className="flex flex-1">
       <div className="home-container-2">
@@ -18,22 +25,31 @@ const Friends = () => {
             {/* <MainLoader/> */}
             <div>
             <div className='body-bold text-center py-5'>REQUESTS</div>
-            <div className="section-center border-b">
-              <FriendCard/>
-              <FriendCard/>
-            </div>
+            {isLoading && !requests ? (
+              <MainLoader/>
+              ):(
+              <ul className="section-center border-b">
+                {requests?.documents.map((query: Models.Document)=>(
+                  <RequestedCard query={query} key={query.$id}/>
+                ))}
+              </ul>
+            )}
             <div className='body-bold text-center py-5'>FRIENDS</div>
-            <div className="section-center">
-              <FriendCard/>
-              <FriendCard/>
-              <FriendCard/>
-              <FriendCard/>
-              <FriendCard/>
-            </div>
+            {isLoading2 && !friends ? (
+              <MainLoader/>
+              ):(
+              <ul className="section-center border-b">
+                {friends?.documents.map((query: Models.Document)=>(
+                  <FriendCard query={query} key={query.$id}/>
+                ))}
+                {friends2?.documents.map((query: Models.Document)=>(
+                  <FriendCard query={query} key={query.$id}/>
+                ))}
+              </ul>
+            )}
             </div>
             <div className="section-right border-l position-fixed right-0 overflow-hidden">
               <div className='body-bold text-center py-5'>RECOMMENDATIONS</div>
-              <FriendCard/>
               <FriendCard/>
             </div>
           </div>

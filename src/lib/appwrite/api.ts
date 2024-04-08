@@ -128,6 +128,53 @@ export async function getRecentPosts() {
   return posts;
 }
 
+export async function getFriendsRequests(user) {
+  const requests= await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.networkCollectionId,
+    [Query.equal('receiverId', user), Query.equal('Accepted', false)]
+  )
+
+  if(!requests) throw Error;
+
+  return requests;
+}
+
+export async function getFriends(user) {
+  console.log("G1"+user);
+  const results= await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.networkCollectionId,
+    [Query.equal('receiverId', user), Query.equal('Accepted', true)]
+  )
+
+  if(!results) throw Error;
+
+  return results;
+}
+
+export async function getFriends2(user) {
+  console.log("G2"+user);
+  const results2= await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.networkCollectionId,
+    [Query.equal('senderId', user), Query.equal('Accepted', true)]
+  )
+
+  if(!results2) throw Error;
+  console.log("result"+results2);
+  return results2;
+}
+
+// export async function useGetFriendRequests(user) {
+//   const requests= await databases.listDocuments(
+//     appwriteConfig.databaseId,
+//     appwriteConfig.networkCollectionId,
+//     [Query.equal('receiverId', user)]
+//   )
+//   return requests;
+// }
+
 // export async function getConnections() {
 //   const posts = await databases.listDocuments(
 //     appwriteConfig.databaseId, 
@@ -211,7 +258,10 @@ export async function getUserById(userId: string) {
 export async function fetchReplies(post: string){
   try{
     console.log(post);
-    const replies = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.answerCollectionId, [Query.equal('postBy', post)]);
+    const replies = await databases.listDocuments(
+      appwriteConfig.databaseId, 
+      appwriteConfig.answerCollectionId, 
+      [Query.equal('postBy', post)]);
     return replies.documents;
   }
   catch (error){
@@ -226,8 +276,10 @@ export async function useAddFriend(receiver:string, sender: string) {
       appwriteConfig.networkCollectionId,
       ID.unique(),
       {
-        Sender: sender,
-        Reciever: receiver
+        sender: sender,
+        receiver: receiver,
+        senderId: sender,
+        receiverId: receiver
       }
     );
     if (!newNetwork) {
@@ -242,9 +294,66 @@ export async function useAddFriend(receiver:string, sender: string) {
 
 }
 
+
+export async function useAcceptFriend(connectionId: string) {
+  try{
+    const newNetwork = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.networkCollectionId,
+      connectionId,{
+        Accepted:true,
+      }
+    );
+    if (!newNetwork) {
+      throw Error;
+    }
+    console.log(newNetwork);
+    return newNetwork;
+  }
+  catch(error){
+    console.error(error);
+  }
+
+}
+
+
+export async function useDeleteRequest(connectionId: string) {
+  try{
+    const newNetwork = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.networkCollectionId,
+      connectionId
+    );
+    if (!newNetwork) {
+      throw Error;
+    }
+    console.log(newNetwork);
+    return newNetwork;
+  }
+  catch(error){
+    console.error(error);
+  }
+
+}
+
+
 export async function useCheckConnection(id:string, guest:string) {
   try{
-    console.log(id+guest);
+    console.log("user:"+ id+" guest"+guest);
+    const status = await databases.listDocuments(
+      appwriteConfig.databaseId, 
+      appwriteConfig.networkCollectionId,
+      [Query.equal("senderId",guest), Query.equal("receiverId",id)]
+    );
+    if(status.documents.length==0){
+      const status2 = await databases.listDocuments(
+        appwriteConfig.databaseId, 
+        appwriteConfig.networkCollectionId,
+        [Query.equal("senderId",id), Query.equal("receiverId",guest)]
+      );
+      return status2.documents;
+    }
+    return status.documents;
   }catch(error){
     console.error(error);
   }

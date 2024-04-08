@@ -3,7 +3,8 @@ import { Link, Outlet, Route, Routes, useLocation, useParams } from 'react-route
 import MainLoader from '../../components/shared/MainLoader';
 import { useUserContext } from '../../context/AuthContext';
 import { useGetUserById } from '../../lib/react-query/queriesAndMutations';
-import { useAddFriend, useCheckConnection } from '../../lib/appwrite/api';
+import { useAcceptFriend, useAddFriend, useCheckConnection, useDeleteRequest } from '../../lib/appwrite/api';
+import Loader from '../../components/shared/Loader';
 
 interface StabBlockProps {
   value: string | number;
@@ -23,6 +24,9 @@ const Profile = () => {
   const { user } = useUserContext();
   const { pathname } = useLocation();
 
+  let loaded=false;
+  let connectionId: string | undefined;
+
   const { data: currentUser } = useGetUserById(id || "");
 
   if (!currentUser)
@@ -32,17 +36,78 @@ const Profile = () => {
       </div>
     );
 
+
+  function operations() {
+    if (document.getElementById("btn").innerHTML=="Accept"){
+      acceptFriend();
+    }
+    else if (document.getElementById("btn").innerHTML=="Add Friend"){
+      addFriend();
+    }
+    else if (document.getElementById("btn").innerHTML=="Requested"){
+      deleteRequest();
+    }
+  }
+
+  // Add friend
   async function addFriend(){
     const result = await useAddFriend(id, user.id);
-    console.log("result");
+    if(result){
+      document.getElementById("btn").innerHTML="Requested";
+    }
   }
-  // async function checkConnection() {
-  //   const connection = await useCheckConnection(id, user.id);
-  //   console.log(connection);
-  // }
+
+  // Accept Request
+  async function acceptFriend() {
+    const result = await useAcceptFriend(connectionId);
+    if(result){
+      document.getElementById("btn").innerHTML="Review";
+    }
+    console.log("Request Accepted");
+  }
   
-  // checkConnection();
+  // Delete Request
+  async function deleteRequest() {
+    const result = await useDeleteRequest(connectionId);
+    if(result){
+      document.getElementById("btn").innerHTML="Add Friend";
+    }
+    console.log("Request Deleted");
+  }
+
+  // Review
+
+
+  // Check if already friend
+  async function checkConnection() {
+    if(id!=user.id){
+      const connection = await useCheckConnection(id, user.id);
+      if(connection?.length!=0){
+        connectionId = connection?.at(0)?.$id;
+        if (!connection?.at(0).Accepted){
+          // Pending Request
+          if (connection?.at(0).receiverId==user.id){
+            document.getElementById("btn").innerHTML="Accept"
+          }else{
+            document.getElementById("btn").innerHTML="Requested"
+          }
+        }
+        else{
+          document.getElementById("btn").innerHTML="Review"
+        }
+      }else if(connection?.length==0){
+        console.log(connection.length);
+        console.log("Show add btn");
+        document.getElementById("btn").innerHTML="Add Friend"
+      }
+    }
+  }
+  if (!loaded){
+    checkConnection();
+    loaded =true;
+  }
   return (
+    
     <div className="profile-container bg-stone-50">
       <div className="profile-inner_container bg-white p-8 rounded-xl">
         <div className="flex xl:flex-row flex-col max-xl:items-center flex-1 gap-7">
@@ -68,7 +133,7 @@ const Profile = () => {
             </div>
 
             <div className="flex gap-8 mt-10 items-center justify-center xl:justify-start flex-wrap z-20">
-              <StatBlock value="0" label="Queries" />
+              <StatBlock value={currentUser.posts.length} label="Queries" />
               <StatBlock value="0" label="Friends" />
               <StatBlock value="0" label="Points" />
             </div>
@@ -93,13 +158,15 @@ const Profile = () => {
               </Link>
             </div>
             <div className={`${user.id === id && "hidden"}`}>
-              <button type="button" className="syn-button-2 px-8" onClick={addFriend}>
-                Add Friend
+              
+              <button type="button" className="syn-button-2 px-8" id='btn' onClick={operations}>
+                <Loader/>
               </button>
             </div>
           </div>
         </div>
       </div>
+      
     </div>
   )
 }
