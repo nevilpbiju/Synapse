@@ -29,7 +29,7 @@ import { useUserContext } from '../../context/AuthContext'
     <div className="flex-between py-4 px-5">
       <Link to="/" className="flex gap-3 items-center">
         <img
-          src="/assets/images/logo.svg"
+          src="/assets/images/icon.svg"
           alt="logo"
           className='object-scale-down h-8'
         />

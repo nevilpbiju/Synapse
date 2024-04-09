@@ -186,6 +186,15 @@
       @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar bg-stone-50;
     }
 
+    .hidden-scroll{
+      -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    }
+
+    .right-container{
+      @apply hidden md:inline overflow-scroll hidden-scroll;
+    }
+
     .home-container-2 {
       @apply flex flex-col flex-1 items-center overflow-scroll custom-scrollbar bg-stone-50;
     }

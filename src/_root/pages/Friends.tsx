@@ -6,6 +6,7 @@ import FriendCard from '../../components/shared/FriendCard';
 import { Models } from 'appwrite';
 import { useGetFriendRequests, useGetFriends, useGetFriends2 } from '../../lib/react-query/queriesAndMutations';
 import RequestedCard from '../../components/shared/RequestedCard';
+import RightSideBard from '../../components/shared/RightSideBard';
 
 const Friends = () => {
 
@@ -48,13 +49,14 @@ const Friends = () => {
               </ul>
             )}
             </div>
-            <div className="section-right border-l position-fixed right-0 overflow-hidden">
-              <div className='body-bold text-center py-5'>RECOMMENDATIONS</div>
-              <FriendCard/>
-            </div>
           </div>
         </div>
       </div>
+      <div className="right-container">
+          <div className="overflow-hidden">
+            <div className="w-full text-center uppercase small-medium pt-5">Suggested For You</div>
+            <RightSideBard/>
+      </div></div>
     </div>
   )
 }
