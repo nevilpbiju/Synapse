@@ -28,11 +28,11 @@
     }
   
     .h2-bold {
-      @apply text-[30px] font-bold leading-[140%] tracking-tighter;
+      @apply text-[30px] font-bold leading-[140%] tracking-tighter uppercase;
     }
   
     .h3-bold {
-      @apply text-[24px] font-bold leading-[140%] tracking-tighter;
+      @apply text-[24px] font-bold leading-[140%] tracking-tighter uppercase;
     }
   
     .base-semibold {
@@ -48,7 +48,11 @@
     }
   
     .body-bold {
-      @apply text-[18px] font-bold leading-[140%];
+      @apply text-[18px] font-bold leading-[140%] uppercase;
+    }
+
+    .body-regular {
+      @apply text-[18px] leading-[140%];
     }
   
     .body-medium {
@@ -119,6 +123,74 @@
       margin: auto;
       width: 50%;
     }
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .tooltip .tooltiptext {
+      @apply bg-black text-white text-center px-7 py-2 my-2;
+      visibility: hidden;
+      border-radius: 6px;
+      position: absolute;
+      z-index: 1;
+    }
+    
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+    }
+
+    .rate {
+      float: left;
+      height: 46px;
+      padding: 0 10px;
+  }
+  .rate:not(:checked) > input {
+      position:absolute;
+      top:-9999px;
+  }
+  .rate:not(:checked) > label {
+      float:right;
+      width:1em;
+      overflow:hidden;
+      white-space:nowrap;
+      cursor:pointer;
+      font-size:30px;
+      color:#ccc;
+  }
+  .rate:not(:checked) > label:before {
+      content: '★ ';
+  }
+  .rate > input:checked ~ label {
+      color: #ffc700;    
+  }
+  .rate:not(:checked) > label:hover,
+  .rate:not(:checked) > label:hover ~ label {
+      color: #deb217;  
+  }
+  .rate > input:checked + label:hover,
+  .rate > input:checked + label:hover ~ label,
+  .rate > input:checked ~ label:hover,
+  .rate > input:checked ~ label:hover ~ label,
+  .rate > label:hover ~ input:checked ~ label {
+      color: #c59b08;
+  }
+
+  .radio-group{
+    @apply flex flex-col gap-2 py-3;
+  }
+  .radio-group input[type="radio"] {
+    display: none;
+  }
+  
+  .radio-group label {
+    @apply cursor-pointer inline-block small-regular p-2 md:px-10 border border-stone-300;
+    border-radius: 4px;
+  }
+  .radio-group input[type="radio"]:checked + label {
+    @apply bg-stone-300 text-black;
+  }
+  
 
     .input-msg{
       @apply flex flex-col items-start gap-2;
@@ -236,7 +308,7 @@
     }
   
     .profile-inner_container {
-      @apply flex items-center md:mb-8 xl:items-start gap-8 flex-col xl:flex-row relative max-w-5xl w-full;
+      @apply items-center md:mb-8 xl:items-start gap-8 flex-col xl:flex-row relative max-w-5xl w-full;
     }
 
     /* Made changes */
@@ -318,7 +390,7 @@
     }
 
     .section-center{
-      display: grid;
+      @apply md:grid;
       grid-template-columns: repeat(3, 1fr);
     }
   }
@@ -349,8 +421,13 @@
     }
 
     .syn-button-2{
-      @apply  text-gray-800 px-4 py-2 rounded-md bg-stone-300;
+      @apply  text-white px-4 py-2 rounded-md bg-gradient-to-t to-slate-500 from-slate-800;
     }
+
+    .syn-button-d{
+      @apply  bg-gradient-to-t to-red from-rose-700 text-white px-4 py-2 rounded-md;
+    }
+    
     .shad-button_primary {
       @apply bg-primary-500 hover:bg-primary-500 flex gap-2 !important;
     }

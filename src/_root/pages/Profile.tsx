@@ -47,6 +47,9 @@ const Profile = () => {
     else if (document.getElementById("btn").innerHTML=="Requested"){
       deleteRequest();
     }
+    else if (document.getElementById("btn").innerHTML=="Review"){
+      reviewFriend();
+    }
   }
 
   // Add friend
@@ -76,7 +79,36 @@ const Profile = () => {
   }
 
   // Review
+  async function reviewFriend() {
+    document.getElementById("popup").style.display="inline";
+    document.getElementById("profile-container").style.display="none";
+  }
 
+  function closePopUp(){
+    document.getElementById("popup").style.display="none";
+    document.getElementById("report-popup").style.display="none";
+    document.getElementById("profile-container").style.display="flex";
+
+  }
+
+  const saveRating = () => {
+    const ratingInputs = document.getElementsByName('rate');
+    let selectedRating = 0;
+    for (let i = 0; i < ratingInputs.length; i++) {
+      if (ratingInputs[i].checked) {
+        selectedRating = parseInt(ratingInputs[i].value);
+        break;
+      }
+    }
+    console.log("Selected rating:", selectedRating);
+  };
+
+
+  // Report
+  function openReport(){
+    document.getElementById("profile-container").style.display="none";
+    document.getElementById("report-popup").style.display="inline";
+  }
 
   // Check if already friend
   async function checkConnection() {
@@ -109,7 +141,7 @@ const Profile = () => {
   return (
     
     <div className="profile-container bg-stone-50">
-      <div className="profile-inner_container bg-white p-8 rounded-xl">
+      <div className="profile-inner_container bg-white p-8 rounded-xl" id="profile-container">
         <div className="flex xl:flex-row flex-col max-xl:items-center flex-1 gap-7">
           <img
             src={
@@ -120,21 +152,22 @@ const Profile = () => {
           />
           <div className="flex flex-col flex-1 justify-between md:mt-2">
             <div className="flex flex-col w-full">
-              <h1 className="text-center xl:text-left h3-bold md:h1-semibold w-full">
+              <h1 className="text-center xl:text-left h3-bold md:h2-bold w-full">
                 {currentUser.name}
               </h1>
               <p className="small-regular md:body-medium text-slate-600 text-center xl:text-left">
                 @{currentUser.username}
               </p>
               <div className='py-4'>
-                <p className="small-regular md:small-semibold text-slate-600 text-center xl:text-left">Institution: {currentUser.institute ? currentUser.institute : "Unknown"}</p>
-                <p className="small-regular md:small-semibold text-slate-600 text-center xl:text-left">Interests: {currentUser.bio ? currentUser.bio : "Unknown"}</p>
+                <p className="base-regular text-slate-700 text-center xl:text-left capitalize">Institution: {currentUser.institute ? currentUser.institute : "Unknown"}</p>
+                <p className="base-regular text-slate-700 text-center xl:text-left capitalize">Interests: {currentUser.bio ? currentUser.bio : "Unknown"}</p>
               </div>
             </div>
 
             <div className="flex gap-8 mt-10 items-center justify-center xl:justify-start flex-wrap z-20">
               <StatBlock value={currentUser.posts.length} label="Queries" />
               <StatBlock value="0" label="Friends" />
+              <StatBlock value="0" label="Rating" />
               <StatBlock value="0" label="Points" />
             </div>
           </div>
@@ -158,15 +191,77 @@ const Profile = () => {
               </Link>
             </div>
             <div className={`${user.id === id && "hidden"}`}>
-              
+              <div className='flex gap-6'>
               <button type="button" className="syn-button-2 px-8" id='btn' onClick={operations}>
                 <Loader/>
               </button>
+              <button type='button' className='tooltip' onClick={openReport}>
+                <img src='../../../public/assets/icons/report.svg'
+                alt="report"
+                width={30}
+                height={30}
+                />
+                <span className='tooltiptext'>Report</span>
+              </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      
+        <div id='popup' className='hidden'>
+        <div className='border px-10 pb-5 pt-8 m-5 rounded-2xl bg-white'>
+        <div className='flex flex-col justify-center items-center text-center gap-2'>
+            <img src={currentUser.imageUrl} className='rounded-full w-14 lg:w-28'/>
+            <div className='body-bold'>{currentUser.name}</div>
+            <p className='small-regular text-slate-600'>@{currentUser.username}</p>
+            <p>{currentUser.institute || 'Unknown'}</p>
+            <div className="rate">
+                <input type="radio" id="star5" name="rate" value="5" />
+                <label htmlFor="star5" title="text">5 stars</label>
+                <input type="radio" id="star4" name="rate" value="4" />
+                <label htmlFor="star4" title="text">4 stars</label>
+                <input type="radio" id="star3" name="rate" value="3" />
+                <label htmlFor="star3" title="text">3 stars</label>
+                <input type="radio" id="star2" name="rate" value="2" />
+                <label htmlFor="star2" title="text">2 stars</label>
+                <input type="radio" id="star1" name="rate" value="1" />
+                <label htmlFor="star1" title="text">1 star</label>
+            </div>
+            <div className='flex gap-5'>
+            <button onClick={saveRating} className='syn-button'>Save</button>
+            <button id="cls" onClick={closePopUp} className='syn-button-2'>Close</button>
+            </div>
+        </div>
+        </div>
+        </div>
+        <div id='report-popup' className='hidden'>
+        <div className='border px-10 pb-5 pt-8 m-5 rounded-2xl bg-white'>
+        <div className='flex flex-col justify-center items-center text-center gap-2'>
+            <img src={currentUser.imageUrl} className='rounded-full w-14 lg:w-28'/>
+            <div className='body-bold'>{currentUser.name}</div>
+            <p className='small-regular text-slate-600'>@{currentUser.username}</p>
+            <p className='small-regular'>{currentUser.institute || 'Unknown'}</p>
+            <div className="radio-group">
+              <span>Choose a reason:</span>
+              <input type="radio" id="reason1" name="reason" value="It's spam" />
+              <label htmlFor="reason1">It's spam</label>
+              <input type="radio" id="reason3" name="reason" value="Nudity or Sexual Activity" />
+              <label htmlFor="reason3">Nudity or Sexual Activity</label>
+              <input type="radio" id="reason4" name="reason" value="Hate Speech or Symbol" />
+              <label htmlFor="reason4">Hate Speech or Symbol</label>
+              <input type="radio" id="reason5" name="reason" value="False Information" />
+              <label htmlFor="reason5">False Information</label>
+              <input type="radio" id="reason6" name="reason" value="Bullying or Harassment" />
+              <label htmlFor="reason6">Bullying or Harassment</label>
+            </div>
+
+            <div className='flex gap-5'>
+            <button className='syn-button-d'>Report</button>
+            <button id="cls" onClick={closePopUp} className='syn-button-2'>Close</button>
+            </div>
+        </div>
+        </div>
+        </div>
     </div>
   )
 }

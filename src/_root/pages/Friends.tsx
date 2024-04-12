@@ -19,13 +19,17 @@ const Friends = () => {
 
 
   return (
-    <div className="flex flex-1">
+    <div className="md:flex flex-1 overflow-scroll hidden-scroll">
       <div className="home-container-2">
         <div className="home-posts">
           <div className="flex overflow-hidden justify-between">
             {/* <MainLoader/> */}
             <div>
-            <div className='body-bold text-center py-5'>REQUESTS</div>
+            <div className='flex gap-4 items-center p-3 mt-5'>
+            <img src='../../../public/assets/icons/AcceptFriend.svg'
+              alt="accept" className='sidebar-link-img'/>
+              Requests
+              </div>
             {isLoading && !requests ? (
               <MainLoader/>
               ):(
@@ -35,7 +39,11 @@ const Friends = () => {
                 ))}
               </ul>
             )}
-            <div className='body-bold text-center py-5'>FRIENDS</div>
+            <div className='flex gap-4 items-center p-3 mt-5'>
+              <img src='../../../public/assets/icons/people.svg'
+              alt="friends" className='sidebar-link-img'/>
+              Friends
+              </div>
             {isLoading2 && !friends ? (
               <MainLoader/>
               ):(

@@ -14,7 +14,7 @@ import { dateConverter } from '../../lib/utils'
                 </Link>
                 <div className="flex flex-col">
                     <p className='base-medium lg:body-bold '>
-                        {query.creator.name} <span className='text-xs text-slate-500'>({query.creator.username})</span>
+                        {query.creator.name} <span className='text-xs text-slate-500 lowercase'>({query.creator.username})</span>
                     </p>
                     <div className='gap-2'>
                         <p className='text-xs text-slate-500'>
