@@ -89,7 +89,7 @@ const QueryForm = ({post, action}: PostFormProps) => {
           <label className="text-sm font-medium">Add Tag(s)* (separated by comma ",")</label>
           <input type="text" id="domain" placeholder="studytips, edtech, csstudents" 
           value={post && post.tags} 
-          className={post? "mt-1 p-2 w-full border rounded-md shad-input pointer-events-none bg-stone-50":"mt-1 p-2 w-full border rounded-md shad-input"} {...register('domain', { required: true, validate: value => value.trim().length > 0 })}/>
+          className={post? "mt-1 p-2 w-full border rounded-md shad-input-2 pointer-events-none bg-stone-50":"mt-1 p-2 w-full border rounded-md"} {...register('domain', { required: true, validate: value => value.trim().length > 0 })}/>
           {errors.domain && <p className="text-red-500 text-xs">At least one tag is required</p>}
         </div>
 

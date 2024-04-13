@@ -191,46 +191,6 @@
     @apply bg-stone-300 text-black;
   }
   
-
-    .input-msg{
-      @apply flex flex-col items-start gap-2;
-    }
-
-    .output-msg{
-      @apply flex flex-col items-end gap-2;
-    }
-
-    .input-msg div{
-      @apply bg-gray-200 text-gray-900 rounded-lg p-2 max-w-xs
-    }
-
-    .output-msg div{
-      @apply bg-sky-400 text-black rounded-lg p-2 max-w-xs
-    }
-
-    .input-msg span{
-      @apply text-sm text-gray-500;
-    }
-
-    .output-msg span{
-      @apply text-sm text-gray-500;
-    }
-
-    .bottom-container{
-      @apply w-full p-2;
-      position: sticky;
-      bottom: 0;
-    }
-
-    .chat-container{
-      @apply h-[34rem] px-4;
-    }
-
-
-    .chat-list tr td{
-      @apply p-5 bg-slate-50 mx-5;
-    }
-  
     /* All Users */
     .user-container {
       @apply max-w-5xl flex flex-col items-start w-full gap-6 md:gap-9;
@@ -393,6 +353,42 @@
       @apply md:grid;
       grid-template-columns: repeat(3, 1fr);
     }
+
+    .chat-interface{
+      @apply  w-full;
+    }
+
+    .chat-list-item{
+      @apply flex gap-3 items-center w-[360px] hover:bg-stone-100 border-b border-stone-300 transition py-2 px-5;
+    }
+
+    .chat-container{
+      @apply w-full;
+    }
+
+    .chat-container div{
+      @apply w-3/5 p-3 m-3;
+      word-wrap: break-word;
+    }
+
+    .chat-info-bar{
+      @apply p-5 bg-stone-100 border-b border-stone-300;
+    }
+
+    .input-msg{
+      @apply float-left bg-stone-200 rounded-bl-lg rounded-tr-lg rounded-br-lg;
+    }
+
+    .output-msg{
+      @apply bg-slate-200 text-right float-right rounded-bl-lg rounded-tr-lg rounded-tl-lg;
+    }
+
+    .chat-input{
+      @apply flex gap-5 w-full p-5;
+      /* position: fixed; */
+      bottom: 0px;
+      height: 100px;
+    }
   }
 
 
@@ -408,7 +404,11 @@
     }
   
     .shad-input {
-      @apply h-12 border placeholder:text-light-4 outline-none rounded-lg !important;
+      @apply h-12 border placeholder:text-stone-500 outline-none rounded-lg w-[250px] !important;
+    }
+
+    .shad-input-2 {
+      @apply h-12 border placeholder:text-stone-500 outline-none rounded-lg !important;
     }
   
     .shad-textarea {

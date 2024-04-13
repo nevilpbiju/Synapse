@@ -1,34 +1,32 @@
 import React from 'react'
 import ChatInterface from '../../components/shared/ChatInterface'
+import RightSideBard from '../../components/shared/RightSideBard'
+import ChatListItem from '../../components/shared/ChatListItem'
 
 const Chat = () => {
   return (
-    <div className='flex flex-row flex-1 bg-white overflow-hidden'>
-      <ul className='flex flex-col gap-6 p-10 border-r'>
-        <li>
-          <button className="flex items-center">
-            <img src="/assets/icons/people.svg" className='sidebar-link-img'/>
-            Name
-          </button>
-        </li>
-        <li>
-          <button className="flex items-center">
-            <img src="/assets/icons/people.svg" className='sidebar-link-img'/>
-            Nevil
-          </button>
-        </li>
-        <li>
-          <button className="flex items-center">
-            <img src="/assets/icons/people.svg" className='sidebar-link-img'/>
-            Nevil
-          </button>
-        </li>
-
-      </ul>
-      <div className='flex flex-col flex-1 items-center gap-10'>
-        <div className='max-w-5xl w-full'>
-          <ChatInterface/>
-        </div>
+    <div className='flex w-full'>
+      <div className="right-container border-r border-stone-300">
+          <div className="flex flex-col overflow-hidden m-7">
+            <input type='text' className='p-4 shad-input mb-5' placeholder='Search...'/>
+            <ChatListItem/>
+            <ChatListItem/>
+            <ChatListItem/>
+            <ChatListItem/>
+            <ChatListItem/>
+            <ChatListItem/>
+            <ChatListItem/>
+            <ChatListItem/>
+            <ChatListItem/>
+            <ChatListItem/>
+            <ChatListItem/>
+            <ChatListItem/>
+            <ChatListItem/>
+            <ChatListItem/>
+            <ChatListItem/>
+      </div></div>
+      <div className='w-full'>
+        <ChatInterface/>
       </div>
     </div>
   )
