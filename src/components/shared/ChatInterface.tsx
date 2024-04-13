@@ -13,7 +13,7 @@ const ChatInterface = () => {
           </div>
         </Link>
       </div>
-      <div className='overflow-scroll hidden-scroll h-[70%]'>
+      <div className='overflow-scroll hidden-scroll h-[70%] md:h-[76%]'>
       <div className='chat-container overflow-hidden'>
         <div className='output-msg'>HaiHaiHaiHaiHaiHai HaiHaiHaiHai HaiHaiHaiHaiHaiHai HaiHaiHaiHaiHaiHaiHaiHaiHaiHaiHaiHaiHai</div>
         <div className='input-msg'>Hai</div>
