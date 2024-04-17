@@ -14,7 +14,8 @@ export const appwriteConfig={
     networkCollectionId: import.meta.env.VITE_APPWRITE_NETWORK_COLLECTION_ID,
     answerCollectionId: import.meta.env.VITE_APPWRITE_ANSWER_COLLECTION_ID,
     questionCollectionId: import.meta.env.VITE_APPWRITE_QUESTION_COLLECTION_ID,
-    reviewCollectionId: import.meta.env.VITE_APPWRITE_REVIEW_COLLECTION_ID
+    reviewCollectionId: import.meta.env.VITE_APPWRITE_REVIEW_COLLECTION_ID,
+    inboxCollectionId: import.meta.env.VITE_APPWRITE_INBOX_COLLECTION_ID
 }
 
 export const client = new Client();

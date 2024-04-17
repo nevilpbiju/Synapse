@@ -29,7 +29,7 @@ const App = () => {
                 <Route path='/friends' element={<Friends/>}/>.
                 <Route path='/profile/:id/*' element={<Profile/>}/>
                 <Route path='/update-profile/:id' element={<UpdateProfile/>}/>
-                <Route path='/chat' element={<Chat/>}/>
+                <Route path='/chat/*' element={<Chat/>}/>
                 <Route path='/conference' element={<Conference/>}/>
                 <Route path='/admin' element={<Admin/>}/>
                 <Route path='*' element={<PageNotFound/>}/>

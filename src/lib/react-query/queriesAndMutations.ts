@@ -4,7 +4,7 @@ import {
     useQueryClient,
     useInfiniteQuery,
 } from "@tanstack/react-query";
-import { createPost, createUserAccount, deletePost, getFriends, getFriends2, getFriendsRequests, getPostById, getRecentPosts, getUserById, signInAccount, signOutAccount, updatePost, updateProfile } from "../appwrite/api";
+import { createPost, createUserAccount, deletePost, getChat, getFriends, getFriends2, getFriendsRequests, getInbox, getInbox2, getPostById, getRecentPosts, getUserById, signInAccount, signOutAccount, updatePost, updateProfile } from "../appwrite/api";
 import { INewPost, INewQuery, INewUser, IUpdateQuery, IUpdateUser } from "../../types";
 import { QUERY_KEYS } from "./queryKeys";
 import { profile } from "console";
@@ -73,7 +73,26 @@ export const useGetFriends2 = (userId) => {
   });
 };
 
+export const useGetInbox = (userId) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_INBOX, userId],
+    queryFn: () => getInbox(userId),
+  });
+};
 
+export const useGetInbox2 = (userId) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_INBOX2, userId],
+    queryFn: () => getInbox2(userId),
+  });
+};
+
+export const useGetChat = (inbox) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_CHAT, inbox],
+    queryFn: () => getChat(inbox),
+  });
+};
 
 export const useGetPostById = (queryId: string)=>{
   return useQuery({

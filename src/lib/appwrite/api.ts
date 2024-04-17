@@ -166,6 +166,108 @@ export async function getFriends2(user) {
   return results2;
 }
 
+export async function getInbox(user) {
+  const results= await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.inboxCollectionId,
+    [Query.equal('User1', user), Query.orderDesc('$updatedAt')]
+  )
+  console.log("user1=user");
+  console.log(results.documents);
+  return results;
+}
+
+export async function getInbox2(user) {
+  const results2= await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.inboxCollectionId,
+    [Query.equal('User2', user), Query.orderDesc('$updatedAt')]
+  )
+
+  console.log("user2=user");
+  console.log(results2.documents);
+  return results2;
+}
+
+export async function getChat(inbox) {
+  const chats= await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.chatCollectionId,
+    [Query.equal('inboxId', inbox)]
+  )
+  console.log(chats.documents);
+  return chats;
+}
+
+export async function useSendChat(message, sender, receiver, inbox) {
+  try{
+    const chatStat= await databases.createDocument(
+      appwriteConfig.databaseId,
+        appwriteConfig.chatCollectionId,
+        ID.unique(),
+        {
+          senderId: sender,
+          recieverId: receiver,
+          message: message,
+          inbox: inbox,
+          inboxId: inbox
+        }
+    )
+    console.log(chatStat);
+    return chatStat;
+    
+  }catch(error){
+    console.log(error);
+    
+  } 
+}
+
+export async function userCreateInbox(u1, u2) {
+  try{const res3 = await databases.createDocument(
+    appwriteConfig.databaseId,
+    appwriteConfig.inboxCollectionId,
+    ID.unique(),{
+      User1: u1,
+      User2: u2,
+      users1: u1,
+      users2: u2,
+    }
+  )
+  return res3;}
+  catch(error){
+    console.log(error);
+  }
+}
+
+export async function useCheckInbox(u2, u1){
+  try{
+    const res = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.inboxCollectionId,
+      [Query.equal('User1',u1), Query.equal('User2', u2)]
+    )
+    console.log("inbox return")
+    if (res.documents.length==0){
+      console.log(res.documents);
+      const res2 = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.inboxCollectionId,
+        [Query.equal('User1',u2), Query.equal('User2', u1)]
+      )
+      if(res2.documents.length!=0){
+        console.log("return 2");
+        return res2.documents.at(0);
+      }else{
+        console.log("Nothing to return");
+      }
+    }
+    return res.documents.at(0);
+  }catch(error){
+    console.log(error);
+  }
+  
+}
+
 // export async function useGetFriendRequests(user) {
 //   const requests= await databases.listDocuments(
 //     appwriteConfig.databaseId,

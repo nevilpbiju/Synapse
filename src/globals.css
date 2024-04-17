@@ -366,7 +366,15 @@
       @apply w-full;
     }
 
-    .chat-container div{
+    .stroller-area::-webkit-scrollbar{
+      width: 0px;
+  }
+  
+  .stroller-area::-webkit-scrollbar-track{
+      width: 0px;
+  }
+
+    .chat-container div div{
       @apply w-3/5 p-3 m-3;
       word-wrap: break-word;
     }

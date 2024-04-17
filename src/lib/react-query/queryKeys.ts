@@ -23,6 +23,8 @@ export enum QUERY_KEYS {
     GET_FRIENDS_REQUESTS = "getFriendsRequests",
     GET_FRIENDS = "getFriends",
     GET_FRIENDS2 = "getFriends2",
-
+    GET_INBOX = "getInbox",
+    GET_INBOX2 = "getInbox2",
+    GET_CHAT = "getChat",
   }
   

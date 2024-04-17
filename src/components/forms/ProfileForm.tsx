@@ -52,7 +52,7 @@ const ProfileForm = () => {
 }
 
   return (
-    <form className="mt-6 flex flex-col gap-9 w-80 md:w-[26rem]" onSubmit={handleSubmit(onSubmit)}>
+    <form className="mt-6 flex flex-col gap-9 w-80 md:w-[26rem]" onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
       <div className="flex flex-col sm:flex-row sm:items-center justify-end">
       <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name:</label>
       <input type="text" id="name" name="name"

@@ -6,6 +6,7 @@ import { QueryValidation } from "../../lib/validation"
 import { Models } from "appwrite"
 import { useCreatePost, useUpdatePost } from "../../lib/react-query/queriesAndMutations"
 import { useState } from "react"
+import { autocomplete } from "@nextui-org/theme"
 
  
 
@@ -74,7 +75,7 @@ const QueryForm = ({post, action}: PostFormProps) => {
 
   return (
     <div>
-    <form className="mt-6 flex flex-col gap-9 w-80 md:w-[26rem]" onSubmit={handleSubmit(onSubmit)}>
+    <form className="mt-6 flex flex-col gap-9 w-80 md:w-[26rem]" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <div className="flex flex-col">
           <label className="text-sm font-medium">Query*</label>
           <textarea id="content" className="mt-1 p-2 shad-textarea custom-scrollbar" {...register('content', { required: true, minLength: 20 })} defaultValue={post && post.caption}></textarea>
