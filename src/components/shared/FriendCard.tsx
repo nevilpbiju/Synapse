@@ -31,7 +31,7 @@ const FriendCard = ({query}) => {
             <div className='body-bold'>{query?.receiver.name}</div>
             <p className='small-regular text-slate-600'>@{query?.receiver.username}</p>
             <p>{query?.receiver?.institute || 'Unknown'}</p>
-            <div>Points: 0</div>
+            <div>Points: {query?.receiver?.points || -1}</div>
         </Link>
         <button className='syn-button text-center w-full mt-3' onClick={openChatInterface}><img src='../../../public/assets/icons/chat.svg' className='text-center w-full p-1 h-9 invert'/></button>
     </div>
@@ -42,7 +42,7 @@ const FriendCard = ({query}) => {
             <div className='body-bold'>{query?.sender.name}</div>
             <p className='small-regular text-slate-600'>@{query?.sender.username}</p>
             <p>{query?.sender?.institute || 'Unknown'}</p>
-            <div>Points: 0</div>
+            <div>Points: {query?.sender?.points || -1}</div>
         </Link>
         <button className='syn-button text-center w-full mt-3' onClick={openChatInterface}><img src='../../../public/assets/icons/chat.svg' className='text-center w-full p-1 h-9 invert'/></button>
     </div>

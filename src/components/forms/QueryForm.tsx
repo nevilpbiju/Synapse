@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom"
 import { z } from "zod"
 import { QueryValidation } from "../../lib/validation"
 import { Models } from "appwrite"
-import { useCreatePost, useUpdatePost } from "../../lib/react-query/queriesAndMutations"
+import { useCreatePost, useGetUserById, useUpdatePost } from "../../lib/react-query/queriesAndMutations"
 import { useState } from "react"
-import { autocomplete } from "@nextui-org/theme"
+import { autocomplete, user } from "@nextui-org/theme"
 
  
 
@@ -25,6 +25,7 @@ const QueryForm = ({post, action}: PostFormProps) => {
   const navigate = useNavigate();
   const userI = sessionStorage.getItem('user').toString();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const { data: me } = useGetUserById(userI);
 
   const form = useForm<z.infer<typeof QueryValidation>>({
     resolver: zodResolver(QueryValidation),
@@ -59,6 +60,8 @@ const QueryForm = ({post, action}: PostFormProps) => {
           ...values,
           UserID: userI,
         });
+        const res2 = await useUpdatePoints(me?.$id, (me?.points as unknown as number)+1);
+        console.log(res2);
         if (!newQuery) {
           console.log("Error adding question");
           return;

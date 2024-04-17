@@ -22,7 +22,7 @@ const FriendCard = ({query}) => {
             <div className='body-bold'>{query?.sender.name}</div>
             <p className='small-regular text-slate-600'>@{query?.sender.username}</p>
             <p>{query?.sender?.institute || 'Unknown'}</p>
-            <div>Points: 0</div>
+            <div>Points: {query?.sender?.points || 0}</div>
         </Link>
             <button type="button" className="syn-button-2 px-8 mt-5 w-full" onClick={acceptRequest}>
                 Accept

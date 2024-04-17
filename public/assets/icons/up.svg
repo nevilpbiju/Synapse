@@ -1,47 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    <title>like [#1386]</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
 
-<svg
-   width="110.17419mm"
-   height="133.72527mm"
-   viewBox="0 0 110.17419 133.72527"
-   version="1.1"
-   id="svg5"
-   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
-   sodipodi:docname="up.svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview7"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:document-units="mm"
-     showgrid="false"
-     inkscape:zoom="0.20719819"
-     inkscape:cx="224.42281"
-     inkscape:cy="1011.1092"
-     inkscape:window-width="1440"
-     inkscape:window-height="836"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
-  <defs
-     id="defs2" />
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(-40.200155,-76.731301)">
-    <path
-       id="path2392"
-       style="color:#000000;fill:#000000;fill-rule:evenodd;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;-inkscape-stroke:none;paint-order:fill markers stroke"
-       d="m 94.813316,76.766527 a 3.0328034,3.0328034 0 0 0 -1.635548,0.80667 L 41.130815,127.40685 a 3.0328034,3.0328034 0 0 0 -0.89866,2.06809 l -0.032,-0.009 c 0.0224,5.32197 0.92408,9.79199 5.15006,10.19834 h 27.95643 v 58.50031 a 3.0328034,3.0328034 0 0 0 0.0636,0.23668 c -0.12848,0.62466 0.44014,2.25224 4.53771,6.49159 3.747348,3.87698 10.267449,5.54158 16.757625,5.56348 7.45556,0.0252 14.87175,-2.11727 18.00045,-5.56348 2.99519,-3.29917 4.03945,-4.82085 4.34703,-5.52266 a 3.0328034,3.0328034 0 0 0 0.0362,-0.0858 c 0.0329,-0.0842 0.0531,-0.15405 0.0646,-0.21291 a 3.0328034,3.0328034 0 0 0 0.15398,-0.90692 v -58.50186 h 27.95694 c 4.20248,-0.40409 5.11648,-4.82767 5.14852,-10.11049 a 3.0328034,3.0328034 0 0 0 5.3e-4,-0.0176 c 1.4e-4,-0.0237 4e-4,-0.0471 5.1e-4,-0.0708 l -0.015,0.004 a 3.0328034,3.0328034 0 0 0 -0.91779,-2.07119 L 97.371308,77.573197 a 3.0328034,3.0328034 0 0 0 -2.557992,-0.80667 z m 0.461989,7.19491 44.514085,42.593783 -25.55505,0.004 a 3.0328034,3.0328034 0 0 0 -3.0308,3.03134 v 65.54276 H 79.37136 v -65.53915 a 3.0328034,3.0328034 0 0 0 -3.033395,-3.03289 l -25.55658,0.004 z" />
-  </g>
+</defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Dribbble-Light-Preview" transform="translate(-219.000000, -760.000000)" fill="#000000">
+            <g id="icons" transform="translate(56.000000, 160.000000)">
+                <path d="M163,610.021159 L163,618.021159 C163,619.126159 163.93975,620.000159 165.1,620.000159 L167.199999,620.000159 L167.199999,608.000159 L165.1,608.000159 C163.93975,608.000159 163,608.916159 163,610.021159 M183.925446,611.355159 L182.100546,617.890159 C181.800246,619.131159 180.639996,620.000159 179.302297,620.000159 L169.299999,620.000159 L169.299999,608.021159 L171.104948,601.826159 C171.318098,600.509159 172.754498,599.625159 174.209798,600.157159 C175.080247,600.476159 175.599997,601.339159 175.599997,602.228159 L175.599997,607.021159 C175.599997,607.573159 176.070397,608.000159 176.649997,608.000159 L181.127196,608.000159 C182.974146,608.000159 184.340196,609.642159 183.925446,611.355159" id="like-[#1386]">
+
+</path>
+            </g>
+        </g>
+    </g>
 </svg>

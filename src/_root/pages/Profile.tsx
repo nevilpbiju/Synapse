@@ -3,7 +3,7 @@ import { Link, Outlet, Route, Routes, useLocation, useParams } from 'react-route
 import MainLoader from '../../components/shared/MainLoader';
 import { useUserContext } from '../../context/AuthContext';
 import { useGetUserById } from '../../lib/react-query/queriesAndMutations';
-import { useAcceptFriend, useAddFriend, useCheckConnection, useDeleteRequest } from '../../lib/appwrite/api';
+import { useAcceptFriend, useAddFriend, useCheckConnection, useDeleteRequest, useUpdatePoints } from '../../lib/appwrite/api';
 import Loader from '../../components/shared/Loader';
 
 interface StabBlockProps {
@@ -28,6 +28,7 @@ const Profile = () => {
   let connectionId: string | undefined;
 
   const { data: currentUser } = useGetUserById(id || "");
+  const { data: me } = useGetUserById(user.id);
 
   if (!currentUser)
     return (
@@ -63,6 +64,19 @@ const Profile = () => {
   // Accept Request
   async function acceptFriend() {
     const result = await useAcceptFriend(connectionId);
+    let points
+    if(currentUser.points==null){
+      points=1;
+    }else{
+      points = currentUser.points+1;
+    }
+    await useUpdatePoints(currentUser.$id, points);
+    if(me.points==null){
+      points=1;
+    }else{
+      points = me.points+1;
+    }
+    await useUpdatePoints(me.$id, points);
     if(result){
       document.getElementById("btn").innerHTML="Review";
     }
@@ -91,7 +105,7 @@ const Profile = () => {
 
   }
 
-  const saveRating = () => {
+  const saveRating = async function name()  {
     const ratingInputs = document.getElementsByName('rate');
     let selectedRating = 0;
     for (let i = 0; i < ratingInputs.length; i++) {
@@ -100,7 +114,11 @@ const Profile = () => {
         break;
       }
     }
-    console.log("Selected rating:", selectedRating);
+    if(currentUser.points!=null){
+      selectedRating+=currentUser.points;
+    }
+    const res= await useUpdatePoints(currentUser.$id, selectedRating);
+    console.log(res);
   };
 
 
@@ -166,9 +184,9 @@ const Profile = () => {
 
             <div className="flex gap-8 mt-10 items-center justify-center xl:justify-start flex-wrap z-20">
               <StatBlock value={currentUser.posts.length} label="Queries" />
-              <StatBlock value="0" label="Friends" />
-              <StatBlock value="0" label="Rating" />
-              <StatBlock value="0" label="Points" />
+              {/* <StatBlock value="0" label="Friends" /> */}
+              {/* <StatBlock value="0" label="Rating" /> */}
+              <StatBlock value={currentUser.points} label="Points" />
             </div>
           </div>
           <div className="flex justify-center gap-4">
@@ -216,15 +234,15 @@ const Profile = () => {
             <p className='small-regular text-slate-600'>@{currentUser.username}</p>
             <p>{currentUser.institute || 'Unknown'}</p>
             <div className="rate">
-                <input type="radio" id="star5" name="rate" value="5" />
+                <input type="radio" id="star5" name="rate" value="2" />
                 <label htmlFor="star5" title="text">5 stars</label>
-                <input type="radio" id="star4" name="rate" value="4" />
+                <input type="radio" id="star4" name="rate" value="1" />
                 <label htmlFor="star4" title="text">4 stars</label>
-                <input type="radio" id="star3" name="rate" value="3" />
+                <input type="radio" id="star3" name="rate" value="0" />
                 <label htmlFor="star3" title="text">3 stars</label>
-                <input type="radio" id="star2" name="rate" value="2" />
+                <input type="radio" id="star2" name="rate" value="-1" />
                 <label htmlFor="star2" title="text">2 stars</label>
-                <input type="radio" id="star1" name="rate" value="1" />
+                <input type="radio" id="star1" name="rate" value="-2" />
                 <label htmlFor="star1" title="text">1 star</label>
             </div>
             <div className='flex gap-5'>

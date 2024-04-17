@@ -268,6 +268,45 @@ export async function useCheckInbox(u2, u1){
   
 }
 
+export async function useUpdateVotes(post, likes){
+  try{
+    const res = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.questionCollectionId,
+      post,
+      {
+        likes: likes
+      }
+    );
+    return res;
+  }
+  catch(error){
+    console.log(error);
+    
+  }
+
+}
+
+export async function useUpdatePoints(user, points){
+  try{
+    const res = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      user,
+      {
+        points: points
+      }
+    );
+    return res;
+  }
+  catch(error){
+    console.log(error);
+    
+  }
+
+}
+
+
 // export async function useGetFriendRequests(user) {
 //   const requests= await databases.listDocuments(
 //     appwriteConfig.databaseId,
