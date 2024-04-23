@@ -1,12 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
+import Loader from '../../components/shared/Loader';
 import { z } from "zod"
 import { QueryValidation } from "../../lib/validation"
 import { Models } from "appwrite"
 import { useCreatePost, useGetUserById, useUpdatePost } from "../../lib/react-query/queriesAndMutations"
 import { useState } from "react"
-import { autocomplete, user } from "@nextui-org/theme"
+import { updateDomains, updateProfile, useUpdatePoints } from "../../lib/appwrite/api"
+import { useUserContext } from "../../context/AuthContext"
 
  
 
@@ -20,6 +22,8 @@ const QueryForm = ({post, action}: PostFormProps) => {
 
   const {mutateAsync: createQuery, isPending: isLoadingCreate} = useCreatePost();
   const {mutateAsync: updateQuery, isPending: isLoadingUpdate} = useUpdatePost();
+  const { user } = useUserContext();
+
   
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
@@ -40,6 +44,7 @@ const QueryForm = ({post, action}: PostFormProps) => {
     if (isSubmitting) {
       return; // Prevent multiple submissions
     }
+    document.getElementById("sb").innerHTML="<Loader />";
   
     setIsSubmitting(true); // Disable the submit button
     
@@ -55,6 +60,22 @@ const QueryForm = ({post, action}: PostFormProps) => {
         }
         navigate(`/query/${post.$id}`);
       } else {
+
+        
+        const nDomains = (document.getElementById("domain") as HTMLInputElement).value;
+        const domains = nDomains.split(',')
+        const bio=user.bio.split(',');
+        const domainLength = Math.min(domains.length, 10);
+        for (let i = 0; i < domainLength; i++) {
+          if (bio.length >= 10) {
+              bio.shift(); // Shift old values if bio reaches the maximum length
+          }
+          bio.push(domains[i]);
+        }
+        const nBio = Array.from(new Set(bio));
+        const updatedProfile = await updateDomains(userI, nBio.join(","));
+
+
         console.log(values);
         const newQuery = await createQuery({
           ...values,
@@ -72,6 +93,7 @@ const QueryForm = ({post, action}: PostFormProps) => {
       console.error('Error submitting form:', error);
     } finally {
       setIsSubmitting(false); // Re-enable the submit button after form submission
+      document.getElementById("sb").innerHTML="Submit";
     }
   }
   
@@ -85,10 +107,6 @@ const QueryForm = ({post, action}: PostFormProps) => {
           {errors.content && <p className="text-red-500 text-xs">Question must be at least 20 characters long</p>}
         </div>
 
-            {/* Make image uploads */}
-          {/* <FileUploader/> */}
-          
-
         <div className="flex flex-col">
           <label className="text-sm font-medium">Add Tag(s)* (separated by comma ",")</label>
           <input type="text" id="domain" placeholder="studytips, edtech, csstudents" 
@@ -99,7 +117,7 @@ const QueryForm = ({post, action}: PostFormProps) => {
 
         <div className="flex justify-center items-center gap-6">
           <button type="button" className="syn-button-2" onClick={() => navigate(-1)}>Cancel</button>
-          <button type="submit" className="syn-button">Submit</button>
+          <button type="submit" id="sb" className="syn-button">Submit</button>
         </div>
     </form>
     </div>

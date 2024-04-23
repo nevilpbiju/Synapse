@@ -24,3 +24,20 @@ export function dateConverter(dateString: string): string {
       return `${seconds} second${seconds > 1 ? 's' : ''} ago`;
     }
 }
+
+export function showCaption(input : string) {
+  const delimiter = '$#0&'
+  const index = input.indexOf(delimiter);
+  if (index !== -1) {
+      return input.substring(0, index);
+  }
+      return input;
+}
+
+
+export function removeDuplicates<T>(arr: T[]): T[] {
+  return arr.reduce((acc, obj) => {
+    const seen = new Set(acc.map(o => JSON.stringify(o)));
+    return !seen.has(JSON.stringify(obj)) ? [...acc, obj] : acc;
+  }, [] as T[]);
+}

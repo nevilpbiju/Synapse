@@ -1,6 +1,8 @@
-import { ID, Query } from "appwrite";
+import { ID, Models, Query } from "appwrite";
 import { INewPost, INewQuery, INewUser, IUpdateQuery, IUpdateUser } from "../../types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
+import { error } from "console";
+import { showCaption } from "../utils";
 
 export async function createUserAccount(user: INewUser) {
     try {
@@ -92,6 +94,7 @@ export async function createPost(post: INewQuery) {
     // Convert tags into array
     const domain = post.domain?.replace(/ /g, "").split(",") || [];
     console.log(post);
+    const content = post.content+'$#0&'+post.domain;
 
     // Create post
     const newPost = await databases.createDocument(
@@ -100,7 +103,7 @@ export async function createPost(post: INewQuery) {
       ID.unique(),
       {
         creator: post.UserID,
-        caption: post.content,
+        caption: content,
         tags: domain,
         timestamp: post.timestamp,
       }
@@ -126,6 +129,61 @@ export async function getRecentPosts() {
   if(!posts) throw Error;
 
   return posts;
+}
+
+export async function getResultPosts(item) {
+  const posts = await databases.listDocuments(
+    appwriteConfig.databaseId, 
+    appwriteConfig.questionCollectionId,
+    [Query.orderDesc('$createdAt'),Query.limit(30),Query.search('caption', item)]
+  )
+
+  if(!posts) throw Error;
+
+  return posts;
+}
+
+export async function getRecommendedPosts(domain) {
+  if(!domain){
+    const posts = await databases.listDocuments(
+      appwriteConfig.databaseId, 
+      appwriteConfig.questionCollectionId,
+      [Query.orderDesc('$createdAt'),Query.limit(20)]
+    )
+    if(!posts) throw Error;
+    return posts;
+
+  }else{
+    const domains=domain.split(',');
+    let posts;
+    for (const element of domains){
+      let post = await databases.listDocuments(
+        appwriteConfig.databaseId, 
+        appwriteConfig.questionCollectionId,
+        [Query.orderDesc('$createdAt'),Query.search('caption', element)]
+      )
+      if(!posts){
+        posts=post.documents;
+      }
+      console.log(posts);
+      posts=posts.concat(post.documents);
+    }
+    
+    if(!posts) throw Error;
+    return posts;
+  }
+
+
+}
+
+export async function getAnswers(post:string) {
+  const answers = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.answerCollectionId,
+    [Query.orderDesc('$createdAt'), Query.equal('postBy', post)]
+  )
+  if (!answers) throw Error;
+  return answers;
 }
 
 export async function getFriendsRequests(user) {
@@ -287,6 +345,25 @@ export async function useUpdateVotes(post, likes){
 
 }
 
+export async function useUpdateAnsVotes(post, likes){
+  try{
+    const res = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.answerCollectionId,
+      post,
+      {
+        likes: likes
+      }
+    );
+    return res;
+  }
+  catch(error){
+    console.log(error);
+    
+  }
+
+}
+
 export async function useUpdatePoints(user, points){
   try{
     const res = await databases.updateDocument(
@@ -346,13 +423,14 @@ export async function updatePost(post: IUpdateQuery) {
   try {
     // Convert tags into array
     const domain = post.domain?.replace(/ /g, "").split(",") || [];
+    const content = showCaption(post.content)+'$#0&'+post.domain;
     // Create post
     const updatedPost = await databases.updateDocument(
       appwriteConfig.databaseId,
       appwriteConfig.questionCollectionId,
       post.queryId,
       {
-        caption: post.content,
+        caption: content,
         tags: domain,
       }
     );
@@ -524,6 +602,53 @@ export async function updateProfile(name: string, bio: string, institute: string
 
     return updatedProfile || null;
   } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function updateDomains(userId, bio) {
+  try {
+    const updatedProfile = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      userId,
+      {
+        bio: bio,
+      }
+    );
+
+    if (!updatedProfile) {
+      throw Error;
+    }
+
+    return updatedProfile || null;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function uploadAnswer(user: string, ans: string, post: string) {
+  try{
+    const answer = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.answerCollectionId,
+      ID.unique(),
+      {
+        creator: user,
+        content: ans,
+        posts: post,
+        postBy: post
+      }
+    );
+
+    if(!answer){
+      throw Error;
+    }
+    console.log(answer);
+    return(answer);
+    
+  }
+  catch(error){
     console.log(error);
   }
 }

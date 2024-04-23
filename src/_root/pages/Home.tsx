@@ -1,16 +1,16 @@
 import { Models } from "appwrite";
 import MainLoader from "../../components/shared/MainLoader";
-import { useGetRecentPosts } from "../../lib/react-query/queriesAndMutations";
+import { useGetRecommendedPosts } from "../../lib/react-query/queriesAndMutations";
 import QueryCard from "../../components/shared/QueryCard";
 import { useUserContext } from "../../context/AuthContext";
 import RightSideBard from "../../components/shared/RightSideBard";
 import { Link } from "react-router-dom";
+import { removeDuplicates } from "../../lib/utils";
 
 const Home = () => {
  
-  const { data: querys, isPending: isLoading, isError: isErrorPosts } = useGetRecentPosts(); 
   const { checkAuthUser, isLoading: isUserLoading, user} = useUserContext();
-
+  const { data: querys, isPending: isLoading, isError: isErrorPosts } = useGetRecommendedPosts(user.bio);
 
   sessionStorage.setItem('user', user.id);
       console.log(sessionStorage.getItem('user'));
@@ -24,7 +24,7 @@ const Home = () => {
             <MainLoader/>
           ):(
             <ul className="flex flex-col flex-1 gap-9">
-              {querys?.documents.map((query: Models.Document)=>(
+              {removeDuplicates(querys)?.map((query: Models.Document)=>(
                 <QueryCard query={query} key={query.$id}/>
               ))}
             </ul>

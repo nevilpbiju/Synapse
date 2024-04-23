@@ -4,7 +4,7 @@ import {
     useQueryClient,
     useInfiniteQuery,
 } from "@tanstack/react-query";
-import { createPost, createUserAccount, deletePost, getChat, getFriends, getFriends2, getFriendsRequests, getInbox, getInbox2, getPostById, getRecentPosts, getUserById, signInAccount, signOutAccount, updatePost, updateProfile } from "../appwrite/api";
+import { createPost, createUserAccount, deletePost, getAnswers, getChat, getFriends, getFriends2, getFriendsRequests, getInbox, getInbox2, getPostById, getRecentPosts, getRecommendedPosts, getUserById, signInAccount, signOutAccount, updatePost, updateProfile } from "../appwrite/api";
 import { INewPost, INewQuery, INewUser, IUpdateQuery, IUpdateUser } from "../../types";
 import { QUERY_KEYS } from "./queryKeys";
 import { profile } from "console";
@@ -50,6 +50,29 @@ export const useGetRecentPosts = () => {
     queryFn: getRecentPosts,
   });
 };
+
+export const useGetResultPosts = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_RESULT_POSTS],
+    queryFn:() => getResultPosts(item),
+  });
+};
+
+export const useGetRecommendedPosts = (domain) =>{
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_REC_POSTS, domain],
+    queryFn: () => getRecommendedPosts(domain),
+  });
+};
+
+
+
+export const useGetAnswers = (post) =>{
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_ANSWERS, post],
+    queryFn: () => getAnswers(post),
+  });
+}
 
 export const useGetFriendRequests = (userId) => {
   return useQuery({

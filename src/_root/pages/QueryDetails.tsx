@@ -1,32 +1,63 @@
 import React from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useDeletePost, useGetPostById } from '../../lib/react-query/queriesAndMutations';
+import { useDeletePost, useGetAnswers, useGetPostById } from '../../lib/react-query/queriesAndMutations';
 import MainLoader from '../../components/shared/MainLoader';
-import { dateConverter } from '../../lib/utils';
-import { fetchReplies } from '../../lib/appwrite/api';
+import { dateConverter, showCaption } from '../../lib/utils';
+import { fetchReplies, uploadAnswer } from '../../lib/appwrite/api';
+import { useForm } from 'react-hook-form';
+import { useUserContext } from '../../context/AuthContext';
+import AnswerCard from '../../components/shared/AnswerCard';
+import { Models } from 'appwrite';
 
 const QueryDetails = () => {
 
   const {id} = useParams();
-  const user = sessionStorage.getItem('user')?.toString();
+  const { user } = useUserContext();
   const { data: query, isPending } = useGetPostById(id || '');
   const navigate = useNavigate();
   const { mutate: deletePost } = useDeletePost();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-  async function onLoad() {
-      const replies = await fetchReplies(id);
-    //   console.log(replies);
-      const getContent = (obj: { content: string }) => obj.content;
-      const contentArray: string[] =replies?.map(getContent);
-      console.log(contentArray);
+
+  const { data: querys, isPending: isLoading, isError: isErrorPosts } = useGetAnswers(query?.$id); 
+
+
+
+  async function onSubmit(event: Event) {
+    try{
+        const ans = (document.getElementById("reply") as HTMLInputElement).value;
+        if(ans.trim().length>0){
+            const answer = await uploadAnswer(
+                user.id,
+                ans,
+                query.$id
+            );
+            if(answer){
+                (document.getElementById('reply') as HTMLInputElement).value="";
+                console.log("Successfully replied");
+            }
+        }
+    }
+    catch(error){
+        console.log(error);
+    }
+
   }
+
+//   async function onLoad() {
+//       const replies = await fetchReplies(id);
+//       console.log(replies);
+//       const getContent = (obj: { content: string }) => obj.content;
+//       const contentArray: string[] =replies?.map(getContent);
+//       console.log(contentArray);
+//   }
 
   const handleDeleteQuery = () => {
     deletePost({ postId: id });
     navigate('/');
   };
   console.log(query);
-  onLoad();
+//   onLoad();
   return (
     <div className="post_details-container bg-stone-50">
       {isPending? <MainLoader/> : (
@@ -47,7 +78,7 @@ const QueryDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className={`${user!= query?.creator.$id ? "hidden":"flex flex-row gap-4 md:gap-8"}`}>
+            <div className={`${user.id!= query?.creator.$id ? "hidden":"flex flex-row gap-4 md:gap-8"}`}>
             <Link to={`/edit-query/${query.$id}`}>
                 <img src='/assets/icons/edit.svg' alt='edit' width={24} height={24}/>
             </Link>
@@ -55,7 +86,7 @@ const QueryDetails = () => {
             </div>
         </div>
             <div className="small-medium lg:base-medium py-5">
-                <p>{query?.caption}</p>
+                <p>{showCaption(query?.caption)}</p>
                 <ul className="flex gap-1 mt-2 text-sm text-slate-700">
                     <span>Tag(s):</span>
                     {query.tags.map((tag: string, index: string) => (
@@ -75,31 +106,17 @@ const QueryDetails = () => {
         {/* Answer */}
         <div className='mt-5 border p-2 rounded-lg md:p-5 md:mt-10'>
             <p className='text-sm md:text-base font-bold pb-5'>Answers:</p>
-            <div className="flex-between">
-                <div className="flex items-center gap-3">
-                    <Link to={`/profile/660f948b242a31729747`}>
-                        <img src={query.creator.imageUrl} className='rounded-full w-12 lg:h-12'/>
-                    </Link>
-                    <div className="flex flex-col">
-                        <p className='base-medium lg:body-bold '>
-                            User Test <span className='text-xs text-slate-500'>(usertest)</span>
-                        </p>
-                        <div className='gap-2'>
-                            <p className='text-xs text-slate-500'>
-                                7 hours ago
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div className={`${user!= query?.creator.$id ? "hidden":"flex flex-row gap-4 md:gap-8"}`}>
-                
-                </div>
-            </div>
-            <div className="small-medium lg:base-medium py-5">
-                <p>This is a sample reply</p>
-            </div>
+            {isLoading && !querys ? (
+                <MainLoader/>
+                ):(
+                <ul className="flex flex-col flex-1 gap-9">
+                    {querys?.documents.map((query: Models.Document)=>(
+                    <AnswerCard query={query} key={query.$id}/>
+                    ))}
+                </ul>
+            )}
         </div>
-        <form className='flex rounded-lg my-5 gap-3'>
+        <form className='flex rounded-lg my-5 gap-3' autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
             <input type='text' id="reply" className='bg-stone-100 border px-4 py-2 rounded-md w-full' placeholder="Reply..."/>
             <button type='submit' className='syn-button-2'>Send</button>
         </form>

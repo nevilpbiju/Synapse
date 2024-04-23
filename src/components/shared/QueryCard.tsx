@@ -1,12 +1,16 @@
  import React from 'react'
 import { Link } from 'react-router-dom'
-import { dateConverter } from '../../lib/utils'
+import { dateConverter, showCaption } from '../../lib/utils'
 import { useUserContext } from '../../context/AuthContext';
 import { useGetUserById } from '../../lib/react-query/queriesAndMutations';
 import { useUpdatePoints, useUpdateVotes } from '../../lib/appwrite/api';
 
  
  const QueryCard = ({query}) => {
+     console.log("dfgdgd");
+    console.log(query);
+    
+    
     // const user = sessionStorage.getItem('user')?.toString();
     const { user} = useUserContext();
     const { data: currentUser } = useGetUserById(user.id || "");
@@ -35,6 +39,8 @@ import { useUpdatePoints, useUpdateVotes } from '../../lib/appwrite/api';
         console.log(res);
     }
 
+    
+
    return (
      <div className='post-card'>
         <div className="flex-between">
@@ -59,7 +65,7 @@ import { useUpdatePoints, useUpdateVotes } from '../../lib/appwrite/api';
         </div>
         <Link to={`/query/${query.$id}`}>
             <div className="small-medium lg:base-medium py-5">
-                <p>{query.caption}</p>
+                <p>{showCaption(query.caption)}</p>
             </div>
             {/* If an image URL available */}
             {/* <img src='/public/assets/images/Sample-img.jpg' className='rounded-lg'/> */}

@@ -57,7 +57,7 @@ const SigninForm = () => {
       <div className='mb-4'>
       <h2 className="text-2xl font-semibold mb-4">Welcome Back</h2>
       <div className="sm:hidden flex justify-center">
-        <img src="/assets/images/logo.svg" alt="logo" className='object-scale-down h-20'/>
+        <img src="/assets/images/icon.svg" alt="logo" className='object-scale-down h-20'/>
       </div>
       <h2 className="text-xl font-semibold mb-4">Login</h2>
       </div>
