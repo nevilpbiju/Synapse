@@ -151,7 +151,7 @@ export async function getRecommendedPosts(domain) {
       [Query.orderDesc('$createdAt'),Query.limit(20)]
     )
     if(!posts) throw Error;
-    return posts;
+    return posts.documents;
 
   }else{
     const domains=domain.split(',');

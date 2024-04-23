@@ -63,17 +63,21 @@ const QueryForm = ({post, action}: PostFormProps) => {
 
         
         const nDomains = (document.getElementById("domain") as HTMLInputElement).value;
-        const domains = nDomains.split(',')
-        const bio=user.bio.split(',');
-        const domainLength = Math.min(domains.length, 10);
-        for (let i = 0; i < domainLength; i++) {
-          if (bio.length >= 10) {
-              bio.shift(); // Shift old values if bio reaches the maximum length
+        const domains = nDomains.split(',');
+        if(user.bio){
+          const bio=user.bio.split(',');
+          const domainLength = Math.min(domains.length, 10);
+          for (let i = 0; i < domainLength; i++) {
+            if (bio.length >= 10) {
+                bio.shift(); // Shift old values if bio reaches the maximum length
+            }
+            bio.push(domains[i]);
           }
-          bio.push(domains[i]);
+          const nBio = Array.from(new Set(bio));
+          const updatedProfile = await updateDomains(userI, nBio.join(","));
+        }else{
+          const updatedProfile = await updateDomains(userI, nDomains);
         }
-        const nBio = Array.from(new Set(bio));
-        const updatedProfile = await updateDomains(userI, nBio.join(","));
 
 
         console.log(values);

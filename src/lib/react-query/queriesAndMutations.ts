@@ -4,7 +4,7 @@ import {
     useQueryClient,
     useInfiniteQuery,
 } from "@tanstack/react-query";
-import { createPost, createUserAccount, deletePost, getAnswers, getChat, getFriends, getFriends2, getFriendsRequests, getInbox, getInbox2, getPostById, getRecentPosts, getRecommendedPosts, getUserById, signInAccount, signOutAccount, updatePost, updateProfile } from "../appwrite/api";
+import { createPost, createUserAccount, deletePost, getAnswers, getChat, getFriends, getFriends2, getFriendsRequests, getInbox, getInbox2, getPostById, getRecentPosts, getRecommendedPosts, getResultPosts, getUserById, signInAccount, signOutAccount, updatePost, updateProfile } from "../appwrite/api";
 import { INewPost, INewQuery, INewUser, IUpdateQuery, IUpdateUser } from "../../types";
 import { QUERY_KEYS } from "./queryKeys";
 import { profile } from "console";
@@ -159,15 +159,3 @@ export const useGetUserById = (userId: string) => {
   });
 };
 
-export const useUpdateProfile= () =>{
-  const queryClient = useQueryClient();
-  // console.log(profile);
-  return useMutation({
-    mutationFn: (profile: IUpdateUser) => updateProfile(profile),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id],
-      });
-    },
-  });
-}

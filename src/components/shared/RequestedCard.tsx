@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAcceptFriend } from '../../lib/appwrite/api';
 import { useUserContext } from '../../context/AuthContext';
 
-const FriendCard = ({query}) => {
+const RequestedCard = ({query}) => {
   console.log(query?.sender.name);
   
   async function acceptRequest(){
@@ -31,4 +31,4 @@ const FriendCard = ({query}) => {
   )
 }
 
-export default FriendCard
+export default RequestedCard
