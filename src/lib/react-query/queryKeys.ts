@@ -24,6 +24,7 @@ export enum QUERY_KEYS {
     // CONNECTIONS
     GET_CONNECTIONS = "getConnections",
     GET_FRIENDS_REQUESTS = "getFriendsRequests",
+    GET_USER_RECOMMENDATION = "getUserRecommendation",
     GET_FRIENDS = "getFriends",
     GET_FRIENDS2 = "getFriends2",
     GET_INBOX = "getInbox",

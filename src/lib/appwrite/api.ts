@@ -198,6 +198,40 @@ export async function getFriendsRequests(user) {
   return requests;
 }
 
+export async function getUserRecommendation(domain) {
+  console.log("at recommendation");
+  if(!domain){
+    const posts = await databases.listDocuments(
+      appwriteConfig.databaseId, 
+      appwriteConfig.userCollectionId,
+      [Query.orderDesc('$createdAt'),Query.limit(5)]
+    )
+    if(!posts) throw Error;
+    return posts.documents;
+
+  }else{
+    const domains=domain.split(',');
+    let posts;
+    for (const element of domains){
+      console.log(element);
+      let post = await databases.listDocuments(
+        appwriteConfig.databaseId, 
+        appwriteConfig.userCollectionId,
+        [Query.orderDesc('$createdAt'),Query.limit(5)]
+      )
+      if(!posts){
+        posts=post.documents;
+      }
+      console.log(posts);
+      posts=posts.concat(post.documents);
+    }
+    
+    if(!posts) throw Error;
+    console.log(posts);
+    return posts;
+  }
+}
+
 export async function getFriends(user) {
   console.log("G1"+user);
   const results= await databases.listDocuments(

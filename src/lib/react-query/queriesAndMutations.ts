@@ -4,7 +4,7 @@ import {
     useQueryClient,
     useInfiniteQuery,
 } from "@tanstack/react-query";
-import { createPost, createUserAccount, deletePost, getAnswers, getChat, getFriends, getFriends2, getFriendsRequests, getInbox, getInbox2, getPostById, getRecentPosts, getRecommendedPosts, getResultPosts, getUserById, signInAccount, signOutAccount, updatePost, updateProfile } from "../appwrite/api";
+import { createPost, createUserAccount, deletePost, getAnswers, getChat, getFriends, getFriends2, getFriendsRequests, getInbox, getInbox2, getPostById, getRecentPosts, getRecommendedPosts, getResultPosts, getUserById, getUserRecommendation, signInAccount, signOutAccount, updatePost, updateProfile } from "../appwrite/api";
 import { INewPost, INewQuery, INewUser, IUpdateQuery, IUpdateUser } from "../../types";
 import { QUERY_KEYS } from "./queryKeys";
 import { profile } from "console";
@@ -78,6 +78,13 @@ export const useGetFriendRequests = (userId) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_FRIENDS_REQUESTS, userId],
     queryFn: () => getFriendsRequests(userId),
+  });
+};
+
+export const useGetUserRecommendation = (userId) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_FRIENDS_REQUESTS, userId],
+    queryFn: () => getUserRecommendation(userId),
   });
 };
 

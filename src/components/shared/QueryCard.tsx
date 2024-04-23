@@ -7,10 +7,7 @@ import { useUpdatePoints, useUpdateVotes } from '../../lib/appwrite/api';
 
  
  const QueryCard = ({query}) => {
-     console.log("dfgdgd");
-    console.log(query);
-    
-    
+  
     // const user = sessionStorage.getItem('user')?.toString();
     const { user} = useUserContext();
     const { data: currentUser } = useGetUserById(user.id || "");

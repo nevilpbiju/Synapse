@@ -36,8 +36,10 @@ export function showCaption(input : string) {
 
 
 export function removeDuplicates<T>(arr: T[]): T[] {
-  return arr.reduce((acc, obj) => {
-    const seen = new Set(acc.map(o => JSON.stringify(o)));
-    return !seen.has(JSON.stringify(obj)) ? [...acc, obj] : acc;
-  }, [] as T[]);
+  if(arr){
+    return arr.reduce((acc, obj) => {
+      const seen = new Set(acc.map(o => JSON.stringify(o)));
+      return !seen.has(JSON.stringify(obj)) ? [...acc, obj] : acc;
+    }, [] as T[]);
+  }
 }

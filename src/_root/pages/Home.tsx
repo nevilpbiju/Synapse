@@ -34,7 +34,6 @@ const Home = () => {
       </div>
       <div className="right-container">
           <div className="overflow-hidden">
-            <div className="w-full text-center uppercase small-medium pt-5">Suggested For You</div>
             <RightSideBard/>
       </div></div>
     </div>
