@@ -9,6 +9,7 @@ import { useCreatePost, useGetUserById, useUpdatePost } from "../../lib/react-qu
 import { useState } from "react"
 import { updateDomains, updateProfile, useUpdatePoints } from "../../lib/appwrite/api"
 import { useUserContext } from "../../context/AuthContext"
+import { showCaption } from "../../lib/utils";
 
  
 
@@ -69,9 +70,9 @@ const QueryForm = ({post, action}: PostFormProps) => {
           const domainLength = Math.min(domains.length, 10);
           for (let i = 0; i < domainLength; i++) {
             if (bio.length >= 10) {
-                bio.shift(); // Shift old values if bio reaches the maximum length
+                bio.pop();
             }
-            bio.push(domains[i]);
+            bio.unshift(domains[i]);
           }
           const nBio = Array.from(new Set(bio));
           const updatedProfile = await updateDomains(userI, nBio.join(","));
@@ -107,7 +108,7 @@ const QueryForm = ({post, action}: PostFormProps) => {
     <form className="mt-6 flex flex-col gap-9 w-80 md:w-[26rem]" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <div className="flex flex-col">
           <label className="text-sm font-medium">Query*</label>
-          <textarea id="content" className="mt-1 p-2 shad-textarea custom-scrollbar" {...register('content', { required: true, minLength: 20 })} defaultValue={post && post.caption}></textarea>
+          <textarea id="content" className="mt-1 p-2 shad-textarea custom-scrollbar" {...register('content', { required: true, minLength: 20 })} defaultValue={post && showCaption(post.caption)}></textarea>
           {errors.content && <p className="text-red-500 text-xs">Question must be at least 20 characters long</p>}
         </div>
 
